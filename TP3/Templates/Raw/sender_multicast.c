@@ -15,10 +15,6 @@
 #define GROUP "239.137.194.11"
 #define PORT 7666
 
-usage(){
-  printf("usage : cliecho adresseIP_serveur(x.x.x.x)  numero_port_serveur\n");
-}
-
 int main (int argc, char *argv[]){
 
   int serverSocket, unixSocket,  n, retread;
@@ -32,14 +28,14 @@ int main (int argc, char *argv[]){
   socklen_t len=sizeof(serv_addr);
 
  /* 
-  * Remplir la structure  serv_addr avec l'adresse du serveur 
+  * Remplir la structure  serv_addr avec l'adresse multicast
   */
   memset( (char *) &serv_addr,0, sizeof(serv_addr) );
   serv_addr.sin_family = PF_INET;
   serv_addr.sin_addr.s_addr = inet_addr(GROUP);
   serv_addr.sin_port = htons(PORT);
   
-  hp = (struct hostent *)gethostbyname (argv[1]);
+  hp = (struct hostent *)gethostbyname (GROUP);
   if (hp == NULL) {
     fprintf(stderr, "%s: %s non trouve dans in /etc/hosts ou dans le DNS\n",
 	    argv[0], argv[1]);
@@ -68,18 +64,11 @@ int main (int argc, char *argv[]){
  ftime(&tp);
  data =ctime(&tp.time);
 
- if ( (n= sendto (serverSocket, data, strlen(data),0, (struct sockaddr *)&serv_addr, sizeof(serv_addr)
-		  )) != strlen(data))  {
+ if ( (n= sendto (serverSocket, data, strlen(data),0, (struct sockaddr *)&serv_addr, sizeof(serv_addr))) != strlen(data))  {
    perror ("erreur sendto");
    exit (1);
  }
 
- if ( (n= recvfrom (serverSocket, sendbuf, sizeof(sendbuf)-1,0, (struct sockaddr *)&serv_addr, &len)) != strlen(data) )  {
-   printf ("erreur rcvfrom");
-   exit (1);
- }
- 
- sendbuf[n]='\0';
- printf ("Message reçu du serveur %s \n", sendbuf);
+ printf ("Message envoye : %s \n", data);
  close(serverSocket);
  }

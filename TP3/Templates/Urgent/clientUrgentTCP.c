@@ -31,14 +31,12 @@ int main (int argc, char *argv[])
   struct hostent *hp; 
   char buff[16384];
  
-  
-
   /* Verifier le nombre de paramètre en entrée */
   /* clientTCP <hostname> <numero_port>        */
   if (argc != 3){
     usage();
     exit(1);
-    }
+  }
 
 
   /* 
@@ -56,7 +54,6 @@ int main (int argc, char *argv[])
   serv_addr.sin_addr = * ((struct in_addr *)(hp->h_addr));
   printf ("IP address: %s\n", inet_ntoa (serv_addr.sin_addr));
   
-   
   /*
    * Ouvrir socket (socket STREAM)
    */

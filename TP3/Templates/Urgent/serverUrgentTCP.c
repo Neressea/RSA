@@ -75,8 +75,8 @@ int main (int argc, char *argv[])
   }
  
   // Obtenir taille buffer de reception
-  // A COMPLETER
-  
+  //DONE
+  size = sizeof(buff);
   printf (" la taille du buffer de reception est de %d \n", size);
 
  
@@ -96,7 +96,7 @@ int main (int argc, char *argv[])
 
 
   // Armer le signal SIGUR avec comme handler sig_urg
-  // A COMPLETER
+  // DONE
   signal(SIGURG, sig_urg);
 
  
