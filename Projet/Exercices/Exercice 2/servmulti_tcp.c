@@ -104,15 +104,13 @@ if ((sockfd = socket(PF_INET, SOCK_STREAM, 0)) <0) {
  for (;;) {
    
    clilen = sizeof(cli_addr);
-
-   //On attend de recevoir un nouveau client.
    newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr,  &clilen);
    if (newsockfd < 0) {
     perror("servmulti : erreur accept\n");
     exit (1);
    }
 
-  //On forke et on ferme la socket sur le père afin d'attendre un nouveau client.
+  
   if ( (childpid = fork() ) < 0) {
     perror ("server: fork error\n");
     exit (1);

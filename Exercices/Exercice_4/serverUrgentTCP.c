@@ -17,27 +17,29 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <sys/ioctl.h>
-#include <unistd.h>
+#define BUFSIZE 2048
 
 int serverSocket, clientSocket; /* declaration socket passive et socket active */
 
-
 void sig_urg(int sig)
 {
-  int n;
-  char buff[2048];
+  int n=1;
+  char buff[BUFSIZE];
   printf ("SIGURG recu \n");
 
 
    printf("Recepteur: recu signal SIGURG (%d): caractere urgent\n",sig);
    /* Reception du caractere urgent */
 
-   //DONE
-   //On indique à recv qu'on veut lire les données urgentes
-   n = recv(clientSocket, buff, 2048,MSG_OOB);
+	// On met le flag du rec a MSG_OOB pour une lecture du caratere d'urgence
+	recv(clientSocket, buff, BUFSIZE,MSG_OOB);
 
   printf ("read %d OOB octets %s\n", n,buff);
+
+	
 }
+
+
 
 usage(){
   printf("usage : servecho numero_port_serveur\n");
@@ -51,7 +53,7 @@ int main (int argc, char *argv[])
 
   int n, clilen, servlen, size;
   struct sockaddr_in  serv_addr, cli_addr;
-  char buff[2048];
+  char buff[BUFSIZE];
   socklen_t optionlen;
 
   /* Verifier le nombre de paramètre en entrée */
@@ -75,15 +77,13 @@ int main (int argc, char *argv[])
 
   if (bind(serverSocket,(struct sockaddr *)&serv_addr, sizeof(serv_addr) ) <0) {
    perror ("servecho: erreur bind\n");
-   exit(1);
+   exit (1);
   }
  
-  // Obtenir taille buffer de reception
-  //DONE
-  //On récupère des infos sur le socket du serveur : la taille du buffer de réception
-  //SOL_SOCKET indique que l'on s'intéresse à la couche socket de la connexion
-  getsockopt(serverSocket, SOL_SOCKET, SO_RCVBUF, &size, &optionlen);
-  printf (" la taille du buffer de reception est de %d \n", size);
+	// On obtient la taille du buffer de reception par getsockopt, puis on affiche celle-ci
+	getsockopt(serverSocket, SOL_SOCKET, SO_RCVBUF, &size, &optionlen);
+	printf (" la taille du buffer de reception est de %d \n", size);
+
 
  
   // Paramètrer le nombre de connexion "pending" 
@@ -101,41 +101,34 @@ int main (int argc, char *argv[])
   }
 
 
-  // Armer le signal SIGUR avec comme handler sig_urg
-  // DONE
-  //Lorsque SIGURG est reçu, sig_urg est appelée
-  signal(SIGURG, sig_urg);
-
- 
-  // Demander au systeme d'envoyer le signal au proprietaire de la socket
-  // DONE
-  //On indique au système que l'on veut recevoir les signaux SIGURG et SIGIO de clientSocket 
-  fcntl(clientSocket, F_SETOWN, getpid());
+  // On arme le signal SIGUR avec comme handler sig_urg
+	signal(SIGURG, sig_urg);
+	 
+  // On demander au systeme d'envoyer le signal au proprietaire de la socket
+	fcntl(clientSocket, F_SETOWN, getpid());
 
   for (;;)
     {
-      // Reception des donnees non urgents. Si Fin de connexion ou erreur  
-      // sortir du serveur
-      // Attention au traitement de l'erreur EINTR
-      
-        //DONE
-        //On lit les donénes recues du client
-        n = read(clientSocket, buff, sizeof(buff)-1);
+	
+	/*On traite ici les données conventionnelle
+	Si des donnees urgentes arrivent le signal SIR_URG est genere
+	et les donnees sont traitees dans sig_urg
+	*/	
+	if ((n = read(clientSocket, buff, BUFSIZE-1)) > 0){		
+		buff[n]	= '\0';	
+		printf("%s\n", buff);
+	}
+	
+	else if (n < 0) perror("Read error");
+	else if (n = 0) {
+		close(serverSocket);
+		close(clientSocket);
+		exit(0);
+	}
+	
 
-        //S'il n'y en a pas : erreur
-        if (n < 0){
-          perror("Erreur lors de la lecture sur la socket");
-          exit(1);
-        }else if(n == 0){
-          //On ferme la connexion si aucune donnée n'a été reçue sans que cela ne soit une erreur
-          printf("Fermeture de la connexion\n");
-          close(serverSocket);
-          close(clientSocket);
-          exit(0);
-        }else{
-          //Autrement on affiche le message reçu
-          buff[n]='\0';
-          printf("Message recu : %s\n", buff);
-        }
+
     }
+
+
 }

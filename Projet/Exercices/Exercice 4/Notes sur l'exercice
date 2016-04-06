@@ -1,0 +1,15 @@
+ - Analyse du comportement du serveur :
+
+ Tant que le serveur reçoit des données classiques, il les affiche normalement.
+ Cependant lorsque le client envoie des données urgentes, on a indiqué au système que l'on veut recevoir les données urgentes et que celles-ci
+ soient transférées à la fonction sig_urg.
+ Cette fonction va donc récupérer le message et va lire les données urgentes sur la socket.
+
+ Ici par exemple, le premier message urgent est "abc". Or l'Urgent pointer pointe par défaut sur le dernier octet du message, dans notre cas sur le 'c'.
+ Ensuite le serveur retourne à sa routine habituelle et continue à traiter les messages. Il va donc récupérer les données suivantes sur la socket, ici
+ les autres caractères du message urgent, soit "ab".
+
+ - Wireshark :
+
+ Sur la capture wireshark, on remarque notamment  dans l'en-tête TCP l'Urgent Pointer qui pointe sur la troisième donnée du message, soit 
+ dans notre cas sur l'octet de valeur 63 (valeur ASCII de la lettre 'c')

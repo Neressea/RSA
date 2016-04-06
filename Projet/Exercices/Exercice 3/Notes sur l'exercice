@@ -1,0 +1,12 @@
+- Afin de recevoir un paquet ICMP_UNREACH :
+
+Couper la connexion internet et essayer de se connecter à un site avec un client.
+
+- Afin de recevoir un paquet TIME_EXCEED :
+
+On peut envoyer un paquet avec un TTl à 0 ou à 1 et ainsi dépasser sa durée de vie.
+
+- Afin de recevoir un ICMP_ECHOREPLY :
+
+En faisant un echo, on reçoit un paquet ICMp de réponse.
+
