@@ -27,7 +27,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
- #include <netdb.h>
+#include <netdb.h>
 #include "../util/util.h"
 
 #define MAXLINE 80
@@ -45,7 +45,7 @@ int main (int argc, char *argv[])
   int n, retread, err_code;
   socklen_t clilen;
   struct sockaddr_in cli_addr;
-    char fromClient[MAXLINE];
+  char fromClient[MAXLINE];
   char fromUser[MAXLINE];
 
   /* Verifier le nombre de paramètre en entrée */
@@ -109,8 +109,7 @@ int main (int argc, char *argv[])
 	exit (1);
      }
 
-  while ( (retread=readline (clientSocket, fromClient, MAXLINE)) > 0)
-    {
+  while ( (retread=readline (clientSocket, fromClient, MAXLINE)) > 0){
       printf ("corr: %s", fromClient);
       if (strcmp (fromClient,"Au revoir\n") == 0) 
 	     break ; /* fin de la lecture */
