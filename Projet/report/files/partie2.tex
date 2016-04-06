@@ -1,0 +1,29 @@
+\section{La phase de développement}
+
+\subsection{Les attentes atteintes}
+
+L'ensemble du cahier des charges minimal a été implémenté. De plus, la difficulté est proportionnelle au niveau du joueur. En effet, le nombre d'ennemis dépend du niveau du joueur, et donc des ennemis qu'il a déjà vaincu. Nous avons aussi ajouté une attaque à usage limitée. Des items sont laissés par les ennemis vaincus pour régénérer les points de vie du héros ou son sort limité. Enfin, la vue a été adaptée pour que la carte soit redimensionnable en cours de partie. 
+
+\subsection{Ce qui reste inachevé}
+
+Malheureusement, nous n'avons pas réussi à mettre en pratique nos autres idées. Cependant, nous avons tout de même préparé l'implémentation de certaines fonctionnalités. Ainsi, même si l'éditeur de cartes n'a pas été réalisé, le code a été adapté afin de pouvoir charger des fichiers textes formatés pour faciliter son ajout par la suite. 
+
+De la même manière, bien que la vue soit prête pour la modification des touches, et qu'il existe une fonction permettant de modifier les contrôles utilisateurs, nous n'avons pas eu le temps de lier les deux.
+
+\subsection{Les problèmes rencontrés}
+
+	\subsubsection{Quelques problèmes de communication}
+ 
+En nous confrontant pour la première fois à un travail de groupe de cette ampleur, nous avons rencontré quelques difficultés, dont certaines communicationnelles. En effet, lors de la recherche de sprites, nous avons commencé par les boules de feu ; puis nous nous sommes concertés pour la recherche des boules de glace. Cependant à cause d'un quiproquo, nous avons temporairement fini avec des sprites de cornets de glace. 
+
+	\subsubsection{De la mémoire et des fuites}
+
+Après plusieurs longues séances de codage consécutives, nous nous sommes rendus compte que le programme provoquait un ralentissement général, voire l'instabilité du système d'exploitation. Nous avons rapidement repéré l'origine du problème. En effet, la mémoire vive consommée augmentait à chaque tour de boucle jusqu'à être saturée. En utilisant valgrind, nous avons pu mettre en évidence des textures chargées qui n'étaient pas détruites au sein de fonctions appelées dans la boucle principale.
+
+	\subsubsection{Gestion événementielle}
+	
+	Nous n'arrivions pas dans un premier temps à gérer l'appui de plusieurs touches en même temps. Nous avons alors changé notre Wait Event par un Poll Event. Ce dernier a comme avantage de garder en mémoire plusieurs événements, contrairement à Wait Event qui les gère un par un. Les événements étant stockés dès le premier appel de la fonction Poll Event, un switch(Poll Event) n'est pas nécessaire. Nous avons ensuite décidé de créer un tableau de booléen contenant les états de chaque touche nécessaire au jeu. Il a donc fallu contrôler à la fois les pressions exercées sur les touches et leurs relâchements. Ce tableau nous a permis de gérer les événements de manière plus lisible, mais aussi de gérer grâce à un if l'état de plusieurs touches à la fois, permettant de gérer l'appuie de plusieurs touches. 
+
+	\subsubsection{La vue et le modèle}
+
+Nous avons essayé de respecter au mieux possible un pattern vue-modèle, en les dissociant au maximum. Ceci a entraîné de nombreuses phases de calcul pour l'affichage, étant donné que le modèle est un quadrillage alors que la vue peut "glisser" sur la carte pixel par pixel. De la même manière, un calcul a été nécessaire dans la gestion des collisions pour corriger cette bornée par la taille des cases (dans notre cas 100px).
