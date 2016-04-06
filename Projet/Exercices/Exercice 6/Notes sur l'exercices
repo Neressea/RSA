@@ -1,0 +1,14 @@
+N.B.: Afin de clarifier la structure de l'exercice, un fichier util.h a été créé et les fichiers ont été compartimentés dans des dossiers.
+	  Les dossiers getaddrinfo et structure correspondent aux deux différentes parties de l'exercice.
+	  Un script de compilation se trouve dans chacun des dossiers getaddrinfo et structure. Un script compilant tous les exécutables se trouve àa la racine.
+
+Les deux cas d'utilisation sont similaires, que ce soit avec la modifications des structures ou avec l'utilisation de getaddrinfo.
+La grande différence étant que le code avec getadrinfo peut s'adapter afin d'accepter IPv4 et IPv6. 
+
+On remarque que durant la communication, deux premiers paquets UDP sont échangés en IPv4 pour récupérer les infos du DNS
+lors de l'appel de getaddrinfo.
+
+Ensuite, on voit que tous les échanges se font en TCP sur l'adresse locale IPv6 ::1.
+
+On notera aussi que dans le cadre d'une communication avec un serveur local en IPv6, il peut s'avérer utile de ne pas lancer
+son client sur l'adresse 127.0.0.1. Utilise l'adresse IPv6 locale, c'est mieux.  

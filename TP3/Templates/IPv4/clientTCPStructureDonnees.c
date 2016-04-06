@@ -21,18 +21,20 @@
 #include     <netinet/in.h>
 #include     <arpa/inet.h>
 #include     <strings.h>
+ #include <string.h>
 #include      <netdb.h>
 #include      <stdlib.h>
+#include "util.h"
 
 #define MAXLINE 80
-usage(){
+void usage(){
   printf("usage : cliecho adresseIP_serveur(x.x.x.x)  numero_port_serveur\n");
 }
 
 int main (int argc, char *argv[]){
 	
-  int serverSocket, servlen, n, retread;
-  struct sockaddr_in  serv_addr;
+  int serverSocket, n, retread;
+  struct sockaddr_in6  serv_addr;
   char fromServer[MAXLINE];
   char fromUser[MAXLINE];
   struct hostent *hp;  
@@ -45,30 +47,27 @@ int main (int argc, char *argv[]){
     exit(1);
     }
 
-
-  
   /* 
    * Remplir la structure  serv_addr avec l'adresse du serveur 
    */
-  memset ( (char *) &serv_addr, 0, sizeof(serv_addr) );
-  serv_addr.sin_family = PF_INET;
-  serv_addr.sin_port = htons(atoi(argv[2]));
-  
-  hp = (struct hostent *)gethostbyname (argv[1]);
+  memset( (char*) &serv_addr,0, sizeof(serv_addr) );
+  serv_addr.sin6_family = PF_INET6;
+  serv_addr.sin6_port = htons(atoi(argv[2]));
+
+  hp = (struct hostent *)gethostbyname2(argv[1], AF_INET6);
   if (hp == NULL) {
-    fprintf(stderr, "%s: %s non trouve dans in /etc/hosts ou dans le DNS\n",
-            argv[0], argv[1]);
+    fprintf(stderr, "%s: %s non trouve dans in /etc/hosts ou dans le DNS\n", argv[0], argv[1]);
     exit(1);
   }
+  serv_addr.sin6_addr = * ((struct in6_addr *)(hp->h_addr));
 
-  serv_addr.sin_addr = * ((struct in_addr *)(hp->h_addr));
-  printf ("IP address: %s\n", inet_ntoa (serv_addr.sin_addr));
-  
+  char ipv6_addr[INET6_ADDRSTRLEN];
+  printf ("IP address: %s\n", inet_ntop (AF_INET6, &(serv_addr.sin6_addr), ipv6_addr, INET6_ADDRSTRLEN));
    
   /*
    * Ouvrir socket (socket STREAM)
    */
-  if ((serverSocket = socket(PF_INET, SOCK_STREAM, 0)) <0) {
+  if ((serverSocket = socket(PF_INET6, SOCK_STREAM, 0)) <0) {
     perror ("erreur socket");
     exit (1);
   }
@@ -76,8 +75,7 @@ int main (int argc, char *argv[]){
   /*
    * Connect to the serveur 
    */
-  if (connect (serverSocket, (struct sockaddr *) &serv_addr,  
-	       sizeof(serv_addr) ) < 0){
+  if (connect (serverSocket, (struct sockaddr *) &serv_addr, sizeof(serv_addr) ) < 0){
      perror ("erreur connect");
     exit (1);
   }
@@ -107,4 +105,6 @@ int main (int argc, char *argv[]){
   }
 
   close(serverSocket);
+
+  return 0;
 }

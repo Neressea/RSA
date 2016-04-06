@@ -21,65 +21,72 @@
 #include     <netinet/in.h>
 #include     <arpa/inet.h>
 #include     <strings.h>
+#include     <string.h>
 #include      <netdb.h>
 #include      <stdlib.h>
+#include <unistd.h>
+#include "../util/util.h"
+
 
 #define MAXLINE 80
-usage(){
+void usage(){
   printf("usage : cliecho adresseIP_serveur(x.x.x.x)  numero_port_serveur\n");
 }
 
 int main (int argc, char *argv[]){
 	
-  int serverSocket, servlen, n, retread;
-  struct sockaddr_in  serv_addr;
+  int serverSocket, n, retread, err_code;
   char fromServer[MAXLINE];
   char fromUser[MAXLINE];
-  struct hostent *hp;  
-  
 
-  /* Verifier le nombre de param�tre en entr�e */
+  struct addrinfo *res;
+  struct addrinfo criteres;
+
+  /* Verifier le nombre de paramètre en entrée */
   /* clientTCP <hostname> <numero_port>        */
   if (argc != 3){
     usage();
     exit(1);
-    }
-
-
-  
-  /* 
-   * Remplir la structure  serv_addr avec l'adresse du serveur 
-   */
-  memset ( (char *) &serv_addr, 0, sizeof(serv_addr) );
-  serv_addr.sin_family = PF_INET;
-  serv_addr.sin_port = htons(atoi(argv[2]));
-  
-  hp = (struct hostent *)gethostbyname (argv[1]);
-  if (hp == NULL) {
-    fprintf(stderr, "%s: %s non trouve dans in /etc/hosts ou dans le DNS\n",
-            argv[0], argv[1]);
-    exit(1);
   }
 
-  serv_addr.sin_addr = * ((struct in_addr *)(hp->h_addr));
-  printf ("IP address: %s\n", inet_ntoa (serv_addr.sin_addr));
-  
+  //On veut récupérer une adresse IPv6
+  criteres.ai_family = PF_INET6;
+
+  //On veut du TCP
+  criteres.ai_socktype = SOCK_STREAM;
+
+  //On initialise le reste à 0
+  criteres.ai_flags = 0;
+  criteres.ai_protocol = 0;
+  criteres.ai_addrlen = 0;
+  criteres.ai_addr = NULL;
+  criteres.ai_canonname = NULL;
+  criteres.ai_next = NULL;
+
+  //On recherhce les infos sur le serveur
+  err_code = getaddrinfo(argv[1], argv[2], &criteres, &res);
+
+  //On vérifie qu'il n'y ait aps eu d'erreur
+  if(err_code){
+    fprintf(stderr, "Erreur dans le getaddrinfo : %s", gai_strerror(err_code));
+    exit(1);
+  }
    
   /*
    * Ouvrir socket (socket STREAM)
    */
-  if ((serverSocket = socket(PF_INET, SOCK_STREAM, 0)) <0) {
-    perror ("erreur socket");
-    exit (1);
+  if ((serverSocket = socket(res->ai_family, res->ai_socktype, res->ai_protocol)) <0) {
+    freeaddrinfo(res);
+    perror("Problème dans l'ouverture de la socket");
+    exit(2);
   }
 
   /*
    * Connect to the serveur 
    */
-  if (connect (serverSocket, (struct sockaddr *) &serv_addr,  
-	       sizeof(serv_addr) ) < 0){
-     perror ("erreur connect");
-    exit (1);
+  if (connect (serverSocket, res->ai_addr, res->ai_addrlen) < 0){
+     perror ("Erreur lors de la connexion à la socket");
+     exit (1);
   }
 
   while ( (retread =readline (serverSocket, fromServer, MAXLINE)) > 0)
@@ -107,4 +114,7 @@ int main (int argc, char *argv[]){
   }
 
   close(serverSocket);
+  freeaddrinfo(res);
+
+  return 0;
 }
