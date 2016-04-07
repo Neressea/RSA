@@ -1,96 +1,36 @@
-/*********************************************************************
- *                                                                    *
- * FICHIER: UTIL                                                      *
- *                                                                    *
- * DESCRIPTION: fonctions appelées par client et serveur pour émettre *
- *              et recevoir des données                               *
- *                                                                    *
- *                                                                    *
- *********************************************************************/
 #include "util.h"
 
-/*
- * Ecrire  "n" octets vers un descripteur de socket
- */
-int writen (int  fd, char *ptr, int nbytes)
-{
-  int nleft, nwritten; 
-
-  nleft = nbytes;
-  while (nleft >0) {
-    nwritten = write (fd,ptr, nleft);
-    if (nwritten <=0) {
-      if(errno == EINTR)
-		nwritten=0;
-      else{
-		perror("probleme  dans write\n");
-		return(-1);
-      }
-    }
-    nleft -= nwritten;
-    ptr += nwritten;
-  }
-  return (nbytes);
+void usage(){
+  perror("Il faut renseigner le numéro de port pour les socket !\n");
 }
 
+void searchTypeRequest(char entete [], char type[]){
+  int i = 0;
 
-/*
- * Lire  "n" octets à partir d'un descripteur de socket
- */
-int readn (int  fd, char *ptr, int maxlen)
-{
-  int nleft, nreadn;
-
-  nleft = maxlen;  
-  while (nleft >0) {
-    nreadn = read (fd,ptr, nleft);
-    if (nreadn < 0) {
-      if(errno == EINTR)
-	nreadn=0;
-      else{
-		perror("readn : probleme  dans read \n");
-		return(-1);
-      }
-    }
-    else if(nreadn == 0){
-      /* EOF */ 
-      break ;
-    }
-    nleft -= nreadn;
-    ptr += nreadn;
+  //On récupère la commande
+  while(entete[i] != ' ' && i < MAXENTETE){
+    type[i] = entete[i];
+    i++;
   }
-  return (maxlen - nleft);
 }
 
-/*
- * Lire  une ligne terminee par \n à partir d'un descripteur de socket
- */
-int readline (int  fd, char *ptr, int maxlen)
-{
-  
-  int n, rc, retvalue, encore=1;  char c, *tmpptr; 
+void searchHostName(char entete[], char hostname[]){
+  int i=0;
 
-  tmpptr=ptr;
-  for (n=1; (n < maxlen) && (encore) ; n++) {
-    if ( (rc = read (fd, &c, 1)) ==1) {
-      *tmpptr++ =c; 
-      if (c == '\n')  /* fin de ligne atteinte */
-	  {
-	  	encore =0; retvalue = n;
-	  }
-    }else if (rc ==0) {  /* plus rien à lire */
-      encore = 0;
-      if (n==1) retvalue = 0;  /* rien a été lu */
-      else retvalue = n;
-    }
-    else { /*rc <0 */
-      if (errno != EINTR) {
-		encore = 0;
-		retvalue = -1;
-      }
-    }
+  //On passe la commande
+  while(entete[i] != ' ' && i < MAXENTETE)i++;
+
+  //On récupère le hostname
+  int newi = i;
+  int hosti = 0;
+
+  //On élimine le http://
+  while(newi - i <= 7) newi++;
+
+  while(entete[newi] != '/' && i < MAXHOST){
+    hostname[hosti++] = entete[newi];
+    newi++;
   }
-  *tmpptr = '\0';  /* pour terminer la ligne */
-  return (retvalue);
-}
 
+  hostname[hosti]='\0';
+}

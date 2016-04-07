@@ -1,5 +1,5 @@
-#ifndef UTILS
-#define UTILS
+#ifndef SOCKETUTIL
+#define SOCKETUTIL
 
 #include <sys/types.h>
 #include <sys/time.h>
@@ -19,8 +19,8 @@
 
 #define MAXRESPONSE 65536
 
-void usage();
-void searchTypeRequest(char entete [], char type[]);
-void searchHostName(char entete[], char hostname[]);
+int createSocket(struct addrinfo *res);
+int createWebSocket(char hostname[], char *port);
+int addClient(int socket, fd_set *set);
 
 #endif
