@@ -132,8 +132,7 @@ int main(int argc, char const *argv[])
 	  			close(webSocket);
 	  			exit(5);
 			}else if(read == 0){//On regarde si le serveur a fermé la connexion
-
-				//On ferme la socket client
+				//On ferme la socket web
 				close(webSocket);
 				webSocket = -1;
 				FD_CLR(webSocket, &init_set);
