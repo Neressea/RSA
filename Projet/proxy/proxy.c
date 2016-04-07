@@ -21,7 +21,7 @@ int main(int argc, char const *argv[])
 	//Socket pour dialoguer avec le serveur web
 	int webSocket = -1;
 
-	int read;
+	int rd;
 	char requete[MAXREQUEST], type_requete[MAXENTETE], hostname[MAXHOST];
 	char response[MAXRESPONSE];
 
@@ -123,24 +123,25 @@ int main(int argc, char const *argv[])
 		/*** on regarde si l'on a une réponse du serveur web ***/
 		if(webSocket >= 0 && FD_ISSET(webSocket, &desc_set)){
 			//On lit la réponse du site web
-			read = 1;
+			rd = 1;
 			memset(response, 0, MAXRESPONSE);
-			read = recv(webSocket, response, MAXRESPONSE, 0);
+			rd = recv(webSocket, response, MAXRESPONSE, 0);
 
-			if(read < 0){
+			if(rd < 0){
 				perror("Erreur dans la lecture de la reponse");
-	  			close(webSocket);
+	  			//close(webSocket);
 	  			exit(5);
-			}else if(read == 0){//On regarde si le serveur a fermé la connexion
-				//On ferme la socket web
-				close(webSocket);
+			}else if(rd == 0){//On regarde si le serveur a fermé la connexion
+
+				//On ferme la socket client
+				//close(webSocket);
 				webSocket = -1;
 				FD_CLR(webSocket, &init_set);
 				printf("La connexion avec le serveur web a été fermée\n");
 			}else{
 				//On envoie la requete au client
-				printf("Reponse envoyee : \n%s\n", response);
-				send(clientSocket, response, MAXRESPONSE, 0);
+				//printf("Reponse envoyee : \n%s\n", response);
+				send(clientSocket, response, rd, 0);
 			}
 
 			nbfd--;
@@ -152,17 +153,17 @@ int main(int argc, char const *argv[])
 
 			//On lit les données tant que le client en envoie. Une requête ne fait pas plus de 5000 octets.
 			memset(requete, 0, MAXREQUEST);
-			read = recv(clientSocket, requete, MAXREQUEST, 0);
+			rd = recv(clientSocket, requete, MAXREQUEST, 0);
 
 			//On vérifie qu'il n'y ait pas eu d'erreur dans la lecture
-			if(read < 0){
+			if(rd < 0){
 				perror("Erreur dans la lecture de la requête");
-	  			close(clientSocket);
+	  			//close(clientSocket);
 	  			exit(5);
-			}else if(read == 0) { //On regarde si le client a fermé la connexion
+			}else if(rd == 0) { //On regarde si le client a fermé la connexion
 
 				//On ferme la socket client
-				close(clientSocket);
+				//close(clientSocket);
 				clientSocket = -1;
 				FD_CLR(clientSocket, &init_set);
 				printf("La connexion avec le client a été fermée\n");
@@ -186,16 +187,16 @@ int main(int argc, char const *argv[])
 					FD_SET(webSocket, &init_set);
 
 					//Puis enfin on envoie la requête au serveur web
-					send(webSocket, requete, MAXREQUEST, 0);
+					send(webSocket, requete, rd, 0);
 				}
 			}
 			nbfd--;
 		}
 	}
 
-	close(serverSocket4);
-	close(serverSocket6);
-	close(clientSocket);
+	// close(serverSocket4);
+	// close(serverSocket6);
+	// close(clientSocket);
 
 	return 0;
 }

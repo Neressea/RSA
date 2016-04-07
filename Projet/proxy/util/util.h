@@ -17,8 +17,6 @@
 #define MAXENTETE 50
 #define MAXHOST 100
 
-#define MAXRESPONSE 65536
-
 void usage();
 void searchTypeRequest(char entete [], char type[]);
 void searchHostName(char entete[], char hostname[]);
