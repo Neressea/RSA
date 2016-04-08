@@ -8,8 +8,6 @@ int main(int argc, char const *argv[])
 	//Déclarations des variables
 
 	//Pour gérer getaddrinfo
-	int err_code;
-	struct addrinfo criteres;
 	struct addrinfo *res = NULL;
 
 	//Socket d'écoute du serveur
@@ -34,24 +32,7 @@ int main(int argc, char const *argv[])
 	}
 
 	///// On crée la socket pour gérer les requêtes IPv4 et IPv6
-	//On initialise les criteres
-	memset(&criteres, 0, sizeof(criteres));
-
-	//On indique qu'on veut une socket serveur
-	criteres.ai_flags = AI_PASSIVE;
-
-	//On veut du TCP
-	criteres.ai_socktype = SOCK_STREAM;
-
-	//On veut tout prendre : IPv4 et IPv6
-	criteres.ai_family = AF_UNSPEC;
-
-	//On met le node à NULL pour avoir un socket de serveur
-	err_code = getaddrinfo(NULL, argv[1], &criteres, &res);
-	if(err_code){
-		fprintf(stderr, "Erreur dans le getaddreinfo : %s\n", gai_strerror(err_code));
-		exit(1);
-	}
+	initServerSocket(&res, argv[1]);
 
 	//On ouvre la socket IPv4
 	serverSocket4 = createSocket(res);
@@ -61,17 +42,7 @@ int main(int argc, char const *argv[])
 	serverSocket6 = createSocket(res);
 
 	//On écoute sur les deux sockets
-	if (listen(serverSocket4, SOMAXCONN) <0) {
-		perror ("Erreur dans le listen sur la socket IPv4\n");
-		exit (4);
-	}
-
-	if (listen(serverSocket6, SOMAXCONN) <0) {
-		perror ("Erreur dans le listen sur la socket IPv6\n");
-		exit (4);
-	}
-
-	maxfdp1 = (serverSocket4 < serverSocket6) ? serverSocket6 + 1 : serverSocket4 + 1;
+	maxfdp1 = openServer(serverSocket4, serverSocket6);
 
 	//On initialise els descripteurs
 	FD_ZERO(&init_set);
@@ -86,12 +57,7 @@ int main(int argc, char const *argv[])
 		webSockets[i] = -1;
 	}
 
-	struct sockaddr_in6 *my_addr = (struct sockaddr_in6 *)res->ai_addr;
-	char ip[150];
-	inet_ntop(my_addr->sin6_family, my_addr->sin6_addr.s6_addr, ip, sizeof(my_addr->sin6_addr.s6_addr));
-	printf("\n==================================\n");
-	printf("Lancement du serveur sur l'adresse %s sur le port %s \n", ip, argv[1]);
-	printf("\n==================================\n");
+	showMyIp(res);
 	freeaddrinfo(res);
 
 	//On boucle à l'infini

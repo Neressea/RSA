@@ -26,6 +26,44 @@ int createSocket(struct addrinfo *res){
 	return serverSocket;
 }
 
+void initServerSocket(struct addrinfo **res, const char *num_port){
+	int err_code;
+	struct addrinfo criteres;
+
+	//On initialise les criteres
+	memset(&criteres, 0, sizeof(criteres));
+
+	//On indique qu'on veut une socket serveur
+	criteres.ai_flags = AI_PASSIVE;
+
+	//On veut du TCP
+	criteres.ai_socktype = SOCK_STREAM;
+
+	//On veut tout prendre : IPv4 et IPv6
+	criteres.ai_family = AF_UNSPEC;
+
+	//On met le node à NULL pour avoir un socket de serveur
+	err_code = getaddrinfo(NULL, num_port, &criteres, res);
+	if(err_code){
+		fprintf(stderr, "Erreur dans le getaddreinfo : %s\n", gai_strerror(err_code));
+		exit(1);
+	}
+}
+
+int openServer(int serverSocket4, int serverSocket6){
+	if (listen(serverSocket4, SOMAXCONN) <0) {
+		perror ("Erreur dans le listen sur la socket IPv4\n");
+		exit (4);
+	}
+
+	if (listen(serverSocket6, SOMAXCONN) <0) {
+		perror ("Erreur dans le listen sur la socket IPv6\n");
+		exit (4);
+	}
+
+	return (serverSocket4 < serverSocket6) ? serverSocket6 + 1 : serverSocket4 + 1;
+}
+
 int createWebSocket(char hostname[], char *port){
 	//Pour gérer getaddrinfo
 	int err_code;

@@ -35,3 +35,12 @@ void searchHostName(char entete[], char hostname[]){
 
   hostname[hosti]='\0';
 }
+
+void showMyIp(struct addrinfo *res){
+  struct sockaddr_in6 *my_addr = (struct sockaddr_in6 *)res->ai_addr;
+  char ip[150];
+  inet_ntop(my_addr->sin6_family, my_addr->sin6_addr.s6_addr, ip, sizeof(my_addr->sin6_addr.s6_addr));
+  printf("\n==================================\n");
+  printf("Lancement du serveur sur l'adresse %s sur le port %d \n", ip, my_addr->sin6_port);
+  printf("\n==================================\n");
+}
