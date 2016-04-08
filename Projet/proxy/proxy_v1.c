@@ -98,8 +98,6 @@ int main(int argc, char const *argv[])
 
 		//On a l'arrivée d'un nouveau client en IPv4 et pas d'autres clients en cours
 		if(clientSocket == -1 && FD_ISSET(serverSocket4, &desc_set)){
-
-			printf("%d\n", FD_ISSET(serverSocket4, &desc_set));
 			
 			printf("\n==================================\n");
 			printf("Arrivée d'un nouveau client en IPv4\n");
@@ -110,6 +108,7 @@ int main(int argc, char const *argv[])
 				maxfdp1=clientSocket+1;
 
 			nbfd--;
+			FD_SET(clientSocket, &init_set);
 
 		}else if(clientSocket == -1 && FD_ISSET(serverSocket6, &desc_set)){ //On a reçu un client en IPv6 et pas d'autres clients en cours
 			printf("\n==================================\n");
@@ -121,7 +120,7 @@ int main(int argc, char const *argv[])
 				maxfdp1=clientSocket+1;
 
 			nbfd--;
-
+			FD_SET(clientSocket, &init_set);
 		}
 
 		/******* Ensuite on vérifie les sockets de dialogue *******/
@@ -129,18 +128,8 @@ int main(int argc, char const *argv[])
 		/*** on regarde si l'on a une réponse du serveur web ***/
 		if(webSocket >= 0 && FD_ISSET(webSocket, &desc_set)){
 			//On lit la réponse du site web
-			rd = 1;
-
-			while(rd > 0){
-				memset(response, 0, MAXRESPONSE);
-				rd = read(webSocket, response, MAXRESPONSE);
-
-				//On envoie la réponse au client
-				printf("\n==================================\n");
-				printf("Réponse envoyée : \n%s\n", response);
-				printf("\n==================================\n");
-				send(clientSocket, response, rd, 0);
-			}
+			memset(response, 0, MAXRESPONSE);
+			rd = recv(webSocket, response, MAXRESPONSE, 0);
 
 			if(rd < 0){
 				perror("Erreur dans la lecture de la reponse");
@@ -148,14 +137,19 @@ int main(int argc, char const *argv[])
 	  			exit(5);
 			}else if(rd == 0){//On regarde si le serveur a fermé la connexion
 
-				//On ferme la socket client
+				//On ferme la socket web
 				close(webSocket);
-				webSocket = -1;
 				FD_CLR(webSocket, &init_set);
-				
+				webSocket = -1;				
 				printf("\n==================================\n");
 				printf("La connexion avec le serveur web a été fermée\n");
 				printf("\n==================================\n");
+			}else{
+				//On envoie la réponse au client
+				printf("\n==================================\n");
+				printf("Réponse envoyée : \n%s\n", response);
+				printf("\n==================================\n");
+				send(clientSocket, response, rd, 0);
 			}
 
 			nbfd--;
@@ -225,9 +219,8 @@ int main(int argc, char const *argv[])
 		}
 	}
 
-	// close(serverSocket4);
-	// close(serverSocket6);
-	// close(clientSocket);
+	close(serverSocket4);
+	close(serverSocket6);
 
 	return 0;
 }

@@ -89,7 +89,9 @@ int main(int argc, char const *argv[])
 	struct sockaddr_in6 *my_addr = (struct sockaddr_in6 *)res->ai_addr;
 	char ip[150];
 	inet_ntop(my_addr->sin6_family, my_addr->sin6_addr.s6_addr, ip, sizeof(my_addr->sin6_addr.s6_addr));
+	printf("\n==================================\n");
 	printf("Lancement du serveur sur l'adresse %s sur le port %s \n", ip, argv[1]);
+	printf("\n==================================\n");
 	freeaddrinfo(res);
 
 	//On boucle à l'infini
@@ -105,6 +107,7 @@ int main(int argc, char const *argv[])
 		//On a l'arrivée d'un nouveau client en IPv4 et pas d'autres clients en cours
 		if(FD_ISSET(serverSocket4, &desc_set)){
 
+			printf("\n==================================\n");
 			printf("Arrivée d'un nouveau client en IPv4\n");
 
 			clientSocket = addClient(serverSocket4, &init_set);
@@ -130,6 +133,7 @@ int main(int argc, char const *argv[])
 
 		if(FD_ISSET(serverSocket6, &desc_set)){ //On a reçu un client en IPv6 et pas d'autres clients en cours
 			
+			printf("\n==================================\n");
 			printf("Arrivée d'un nouveau client en IPv6\n");
 
 			clientSocket = addClient(serverSocket6, &init_set);
@@ -147,7 +151,7 @@ int main(int argc, char const *argv[])
 			FD_SET(clientSocket, &init_set);
 		}
 
-		//OPn vérifie qu'on a pas atteint le nombre maximal de client
+		//On vérifie qu'on a pas atteint le nombre maximal de client
 		if(i == FD_SETSIZE){
 			perror("Nombre maximal de clients atteints");
 			exit(3);
@@ -171,13 +175,18 @@ int main(int argc, char const *argv[])
 		  			exit(5);
 				}else if(rd == 0){//On regarde si le serveur a fermé la connexion
 
-					//On ferme la socket client
+					//On ferme la socket web
 					close(webSocket);
 					FD_CLR(webSocket, &init_set);
 					webSocket = -1;
+					printf("\n==================================\n");
 					printf("La connexion avec le serveur web a été fermée\n");
+					printf("\n==================================\n");
 				}else{
 					//On envoie la requete au client
+					printf("\n==================================\n");
+					printf("Réponse envoyée : \n%s\n", response);
+					printf("\n==================================\n");
 					send(clientSockets[i], response, rd, 0);
 				}
 
@@ -205,13 +214,17 @@ int main(int argc, char const *argv[])
 					close(clientSocket);
 					FD_CLR(clientSocket, &init_set);
 					clientSocket = -1;
+					printf("\n==================================\n");
 					printf("La connexion avec le client a été fermée\n");
+					printf("\n==================================\n");
+
 
 				}else{
 					//On récupère le type de la requête
 					searchTypeRequest(requete, type_requete);
 
-					printf("La requete est de type : %s\n", type_requete);
+					printf("\n==================================\n");
+					printf("la requete est de type : %s\n", type_requete);
 
 					//On ne considère que les requêtes GET
 					if(strcmp(type_requete, "GET") == 0){
@@ -234,8 +247,11 @@ int main(int argc, char const *argv[])
 						close(clientSocket);
 						FD_CLR(clientSocket, &init_set);
 						clientSocket = -1;
+						printf("\n==================================\n");
 						printf("La connexion avec le client a été fermée\n");
+						printf("\n==================================\n");
 					}
+					printf("\n==================================\n");
 				}
 
 				nbfd--;
