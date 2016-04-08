@@ -1,4 +1,4 @@
-all: proxy_v1 proxy_v2
+all: proxy_v1 proxy_v2 clear
 
 proxy_v1: proxy_v1.o utils/util.o utils/socketutil.o
 	gcc -o proxy_v1 proxy_v1.o utils/util.o utils/socketutil.o
@@ -19,4 +19,4 @@ util.o: utils/util.c utils/*.h
 	gcc -c utils/util.c utils/*.h
 
 clear:
-	rm -rf *.o utils/*.o
+	rm -rf *.o utils/*.o *.gch utils/*.gch

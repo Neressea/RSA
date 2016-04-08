@@ -26,7 +26,7 @@ int main(int argc, char const *argv[])
 	char response[MAXRESPONSE];
 
 	fd_set init_set, desc_set;
-	int maxfdp1, clientSocket, webSocket, nbfd, nbWebSocket = 0, nbClientSocket = 0;
+	int maxfdp1, clientSocket, webSocket, nbfd;
 	
 	if(argc != 2){
 		usage();
@@ -105,9 +105,6 @@ int main(int argc, char const *argv[])
 		//On a l'arrivée d'un nouveau client en IPv4 et pas d'autres clients en cours
 		if(FD_ISSET(serverSocket4, &desc_set)){
 
-			//On va à la première socket de libre
-			clientSocket = clientSockets[nbClientSocket];
-
 			printf("Arrivée d'un nouveau client en IPv4\n");
 
 			clientSocket = addClient(serverSocket4, &init_set);
@@ -115,15 +112,23 @@ int main(int argc, char const *argv[])
 			if(clientSocket >= maxfdp1)
 				maxfdp1=clientSocket+1;
 
-			nbClientSocket++;
 			//On met à jour le tableau
-			clientSockets[nbClientSocket] = clientSocket;
+			i=0;
+			while(clientSockets[i] >= 0)i++;
+			clientSockets[i] = clientSocket;
 			nbfd--;
 
-		}else if(FD_ISSET(serverSocket6, &desc_set)){ //On a reçu un client en IPv6 et pas d'autres clients en cours
+			if(clientSocket >= maxfdp1) maxfdp1 = clientSocket +1;
+			FD_SET(clientSocket, &init_set);
+		}
 
-			//On va à la première socket de libre
-			clientSocket = clientSockets[nbClientSocket];
+		//OPn vérifie qu'on a pas atteint le nombre maximal de client
+		if(i == FD_SETSIZE){
+			perror("Nombre maximal de clients atteints");
+			exit(3);
+		}
+
+		if(FD_ISSET(serverSocket6, &desc_set)){ //On a reçu un client en IPv6 et pas d'autres clients en cours
 			
 			printf("Arrivée d'un nouveau client en IPv6\n");
 
@@ -132,14 +137,18 @@ int main(int argc, char const *argv[])
 			if(clientSocket >= maxfdp1)
 				maxfdp1=clientSocket+1;
 
-			nbClientSocket+=1;
 			//On met à jour le tableau
+			i=0;
+			while(clientSockets[i] >= 0)i++;
 			clientSockets[i] = clientSocket;
 			nbfd--;
+
+			if(clientSocket >= maxfdp1) maxfdp1 = clientSocket +1;
+			FD_SET(clientSocket, &init_set);
 		}
 
 		//OPn vérifie qu'on a pas atteint le nombre maximal de client
-		if(nbClientSocket == FD_SETSIZE){
+		if(i == FD_SETSIZE){
 			perror("Nombre maximal de clients atteints");
 			exit(3);
 		}
@@ -164,8 +173,8 @@ int main(int argc, char const *argv[])
 
 					//On ferme la socket client
 					close(webSocket);
-					webSocket = -1;
 					FD_CLR(webSocket, &init_set);
+					webSocket = -1;
 					printf("La connexion avec le serveur web a été fermée\n");
 				}else{
 					//On envoie la requete au client
@@ -194,8 +203,8 @@ int main(int argc, char const *argv[])
 
 					//On ferme la socket client
 					close(clientSocket);
-					clientSocket = -1;
 					FD_CLR(clientSocket, &init_set);
+					clientSocket = -1;
 					printf("La connexion avec le client a été fermée\n");
 
 				}else{
@@ -211,26 +220,28 @@ int main(int argc, char const *argv[])
 
 						//On crée la socket de dialogue avec le serveur web
 						webSocket = createWebSocket(hostname, "80");
-						webSockets[nbWebSocket] = webSocket;
-						nbWebSocket++;
 
-						if(nbWebSocket == FD_SETSIZE){
-							perror("Nombre max de sockets atteint");
-							exit(7);
-						}
+						//On ne cherche pas la première case non utilisée du tableau.
+						//On utilise l'indice i pour lier les sockets clients aux websockets correspondantes
+						webSockets[i] = webSocket;
 
 						if(webSocket >= maxfdp1) maxfdp1 = webSocket +1;
 						FD_SET(webSocket, &init_set);
 
 						//Puis enfin on envoie la requête au serveur web
 						send(webSocket, requete, rd, 0);
+					}else if(strcmp(type_requete, "CLOSE")){
+						close(clientSocket);
+						FD_CLR(clientSocket, &init_set);
+						clientSocket = -1;
+						printf("La connexion avec le client a été fermée\n");
 					}
 				}
 
 				nbfd--;
+				clientSockets[i] = clientSocket;
 			}
 
-			clientSockets[i] = clientSocket;
 			i++;
 		}
 	}

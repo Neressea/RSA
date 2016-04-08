@@ -11,11 +11,7 @@
 #include <stdlib.h>
 #include <netdb.h>
 #include <stdio.h>
-
-#define MAXREQUEST 5000
-#define MAXBUFF 1000
-#define MAXENTETE 50
-#define MAXHOST 100
+#include "socketutil.h"
 
 void usage();
 void searchTypeRequest(char entete [], char type[]);

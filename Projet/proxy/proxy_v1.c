@@ -82,7 +82,9 @@ int main(int argc, char const *argv[])
 	struct sockaddr_in6 *my_addr = (struct sockaddr_in6 *)res->ai_addr;
 	char ip[150];
 	inet_ntop(my_addr->sin6_family, my_addr->sin6_addr.s6_addr, ip, sizeof(my_addr->sin6_addr.s6_addr));
+	printf("\n==================================\n");
 	printf("Lancement du serveur sur l'adresse %s sur le port %s \n", ip, argv[1]);
+	printf("\n==================================\n");
 	freeaddrinfo(res);
 
 	//On boucle à l'infini
@@ -97,6 +99,9 @@ int main(int argc, char const *argv[])
 		//On a l'arrivée d'un nouveau client en IPv4 et pas d'autres clients en cours
 		if(clientSocket == -1 && FD_ISSET(serverSocket4, &desc_set)){
 
+			printf("%d\n", FD_ISSET(serverSocket4, &desc_set));
+			
+			printf("\n==================================\n");
 			printf("Arrivée d'un nouveau client en IPv4\n");
 
 			clientSocket = addClient(serverSocket4, &init_set);
@@ -107,6 +112,7 @@ int main(int argc, char const *argv[])
 			nbfd--;
 
 		}else if(clientSocket == -1 && FD_ISSET(serverSocket6, &desc_set)){ //On a reçu un client en IPv6 et pas d'autres clients en cours
+			printf("\n==================================\n");
 			printf("Arrivée d'un nouveau client en IPv6\n");
 
 			clientSocket = addClient(serverSocket6, &init_set);
@@ -124,24 +130,32 @@ int main(int argc, char const *argv[])
 		if(webSocket >= 0 && FD_ISSET(webSocket, &desc_set)){
 			//On lit la réponse du site web
 			rd = 1;
-			memset(response, 0, MAXRESPONSE);
-			rd = recv(webSocket, response, MAXRESPONSE, 0);
+
+			while(rd > 0){
+				memset(response, 0, MAXRESPONSE);
+				rd = read(webSocket, response, MAXRESPONSE);
+
+				//On envoie la réponse au client
+				printf("\n==================================\n");
+				printf("Réponse envoyée : \n%s\n", response);
+				printf("\n==================================\n");
+				send(clientSocket, response, rd, 0);
+			}
 
 			if(rd < 0){
 				perror("Erreur dans la lecture de la reponse");
-	  			//close(webSocket);
+	  			close(webSocket);
 	  			exit(5);
 			}else if(rd == 0){//On regarde si le serveur a fermé la connexion
 
 				//On ferme la socket client
-				//close(webSocket);
+				close(webSocket);
 				webSocket = -1;
 				FD_CLR(webSocket, &init_set);
+				
+				printf("\n==================================\n");
 				printf("La connexion avec le serveur web a été fermée\n");
-			}else{
-				//On envoie la requete au client
-				//printf("Reponse envoyee : \n%s\n", response);
-				send(clientSocket, response, rd, 0);
+				printf("\n==================================\n");
 			}
 
 			nbfd--;
@@ -158,37 +172,54 @@ int main(int argc, char const *argv[])
 			//On vérifie qu'il n'y ait pas eu d'erreur dans la lecture
 			if(rd < 0){
 				perror("Erreur dans la lecture de la requête");
-	  			//close(clientSocket);
+	  			close(clientSocket);
 	  			exit(5);
 			}else if(rd == 0) { //On regarde si le client a fermé la connexion
 
 				//On ferme la socket client
-				//close(clientSocket);
-				clientSocket = -1;
+				close(clientSocket);
 				FD_CLR(clientSocket, &init_set);
+				clientSocket = -1;
+
+				printf("\n==================================\n");
 				printf("La connexion avec le client a été fermée\n");
+				printf("\n==================================\n");
 
 			}else{
 				//On récupère le type de la requête
 				searchTypeRequest(requete, type_requete);
 
+				printf("\n==================================\n");
 				printf("la requete est de type : %s\n", type_requete);
 
 				//On ne considère que les requêtes GET
 				if(strcmp(type_requete, "GET") == 0){
 					searchHostName(requete, hostname);
 					printf("Hostname desire : %s\n", hostname);
-					//printf("Requete recue : %s\n", requete);
+					printf("Requete recue : \n%s\n", requete);
 
 					//On crée la socket de dialogue avec le serveur web
 					webSocket = createWebSocket(hostname, "80");
 
-					if(webSocket >= maxfdp1) maxfdp1 = webSocket +1;
+					if(webSocket >= maxfdp1) 
+						maxfdp1 = webSocket +1;
+
 					FD_SET(webSocket, &init_set);
 
 					//Puis enfin on envoie la requête au serveur web
 					send(webSocket, requete, rd, 0);
+				}else if(strcmp(type_requete, "CLOSE")){
+					//On ferme la socket client
+					close(clientSocket);
+					FD_CLR(clientSocket, &init_set);
+					clientSocket = -1;
+
+					printf("\n==================================\n");
+					printf("La connexion avec le client a été fermée\n");
+					printf("\n==================================\n");
 				}
+
+				printf("\n==================================\n");
 			}
 			nbfd--;
 		}

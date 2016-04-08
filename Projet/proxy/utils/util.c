@@ -8,6 +8,7 @@ void searchTypeRequest(char entete [], char type[]){
   int i = 0;
 
   //On récupère la commande
+  memset(type, 0, sizeof(type));
   while(entete[i] != ' ' && i < MAXENTETE){
     type[i] = entete[i];
     i++;

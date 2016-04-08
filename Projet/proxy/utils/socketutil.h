@@ -17,7 +17,7 @@
 #define MAXENTETE 50
 #define MAXHOST 100
 
-#define MAXRESPONSE 65536
+#define MAXRESPONSE 1500
 
 int createSocket(struct addrinfo *res);
 int createWebSocket(char hostname[], char *port);
