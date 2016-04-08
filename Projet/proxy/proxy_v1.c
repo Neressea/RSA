@@ -1,6 +1,6 @@
 
-#include "util/socketutil.h"
-#include "util/util.h"
+#include "utils/socketutil.h"
+#include "utils/util.h"
 
 int main(int argc, char const *argv[])
 {
