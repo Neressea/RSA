@@ -61,7 +61,9 @@ int main(int argc, char const *argv[])
 	freeaddrinfo(res);
 
 	//On boucle à l'infini
-	while(1){
+	int boucle = 1;
+	while(boucle){
+
 		desc_set = init_set;
 
 		//On attend une connexion
@@ -151,7 +153,7 @@ int main(int argc, char const *argv[])
 				}else{
 					//On envoie la requete au client
 					printf("\n==================================\n");
-					printf("Réponse envoyée : \n%s\n", response);
+					//printf("Réponse envoyée : \n%s\n", response);
 					printf("\n==================================\n");
 					send(clientSockets[i], response, rd, 0);
 				}
@@ -209,6 +211,11 @@ int main(int argc, char const *argv[])
 
 						//Puis enfin on envoie la requête au serveur web
 						send(webSocket, requete, rd, 0);
+
+						//On met tout ça dans un fichier de log
+						char request[150];
+						searchRequest(requete, request);
+						addRequestLog(clientSockets[i], type_requete, request);
 					}else if(strcmp(type_requete, "CLOSE")){
 						close(clientSocket);
 						FD_CLR(clientSocket, &init_set);

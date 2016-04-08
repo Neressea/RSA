@@ -1,4 +1,5 @@
 #include "socketutil.h"
+#include "util.h"
 
 //Crée une socket, la bind et renvoie son descripteur
 int createSocket(struct addrinfo *res){
@@ -127,6 +128,9 @@ int addClient(int socket, fd_set *set){
 	char addr[150];
 	inet_ntop(cli_addr.sin6_family, cli_addr.sin6_addr.s6_addr, addr, sizeof(cli_addr.sin6_addr.s6_addr));
 	printf("Le client d'adresse %s et de port %d a bien été ajouté\n", addr, cli_addr.sin6_port);
+
+	//On ajoute l'adresse aux logs
+	addVisitLog(addr);
 
 	return sockCli;
 }

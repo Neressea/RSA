@@ -4,8 +4,7 @@
 
 int main(int argc, char const *argv[])
 {
-
-	//Déclarations des variables
+	///// Déclarations des variables
 
 	//Pour gérer getaddrinfo
 	int err_code;
@@ -56,7 +55,9 @@ int main(int argc, char const *argv[])
 	freeaddrinfo(res);
 
 	//On boucle à l'infini
-	while(1){
+	int boucle = 1;
+	while(boucle){
+
 		desc_set = init_set;
 
 		//On attend une connexion

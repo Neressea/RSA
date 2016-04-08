@@ -11,10 +11,16 @@
 #include <stdlib.h>
 #include <netdb.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <stdio.h>
+
 #include "socketutil.h"
 
 void usage();
 void searchTypeRequest(char entete [], char type[]);
 void searchHostName(char entete[], char hostname[]);
+void showMyIp(struct addrinfo *res);
+void addVisitLog(char ip[]);
+void addRequestLog(int socketClient, char type_req[], char request[]);
 
 #endif
