@@ -19,7 +19,7 @@
 void usage();
 void searchTypeRequest(char entete [], char type[]);
 void searchHostName(char entete[], char hostname[]);
-void showMyIp(struct addrinfo *res);
+void showMyIp(struct addrinfo *res, const char *port);
 void addVisitLog(char ip[]);
 void addRequestLog(int socketClient, char type_req[], char request[]);
 
