@@ -57,7 +57,7 @@ int main(int argc, char const *argv[])
 		webSockets[i] = -1;
 	}
 
-	showMyIp(res);
+	showMyIp(res, argv[1]);
 	freeaddrinfo(res);
 	//On boucle à l'infini
 	while(1){
@@ -198,7 +198,7 @@ int main(int argc, char const *argv[])
 						printf("Hostname desire : %s\n", hostname);
 
 						//On crée la socket de dialogue avec le serveur web
-						webSocket = createWebSocket(hostname, "80");
+						webSocket = createWebSocket(hostname);
 
 						//On ne cherche pas la première case non utilisée du tableau.
 						//On utilise l'indice i pour lier les sockets clients aux websockets correspondantes
