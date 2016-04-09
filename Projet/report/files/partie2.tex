@@ -29,3 +29,7 @@ Le second fichier (log\_requests) enregistre chaque requête effectuée auprès 
 On peut remarquer lors de l'utilisation du proxy que les déconnexions et reconnexions sont très fréquentes. Ceci est sans doute due au fait que les connexions ne soient pas conservées. On pourrait imaginer vérifier dans la réponse la durée de vie de la requête (keep-alive) afin de faire perdurer les connexions qui le doivent. 
 
 \subsection{Version HTTPS}
+\paragraph{}
+La partie HTTPS (la version 3 du proxy) a été débutée mais n'est pas fonctionnelle. Elle est équivalente à la version 2.
+Afin d'ajouter la gestion HTTPS, OpenSSL a été installé sur les PCs utilisés. Les fonctions SSL\_write et SSL\_read ont remplacé recv et send, et des méthodes particulières ont dû être ajoutées dans le nouveau fichier utils/secureutil.c. 
+Cependant les requêtes envoyées sur les serveur web retournent toujours une erreur 40X. 

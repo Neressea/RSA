@@ -1,5 +1,7 @@
 all: proxy_v1 proxy_v2 proxy_v3 clear
 
+ok: proxy_v1 proxy_v2 clear
+
 proxy_v1: proxy_v1.o utils/util.o utils/socketutil.o
 	gcc -Wall -Werror -o proxy_v1 proxy_v1.o utils/util.o utils/socketutil.o
 
