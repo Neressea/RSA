@@ -51,7 +51,7 @@ int main(int argc, char const *argv[])
 	FD_SET(serverSocket4, &init_set);
 	FD_SET(serverSocket6, &init_set);
 
-	showMyIp(res);
+	showMyIp(res, argv[1]);
 	freeaddrinfo(res);
 
 	//On boucle à l'infini
@@ -158,10 +158,10 @@ int main(int argc, char const *argv[])
 				if(strcmp(type_requete, "GET") == 0){
 					searchHostName(requete, hostname);
 					printf("Hostname desire : %s\n", hostname);
-					printf("Requete recue : \n%s\n", requete);
+					printf("Requete complete : \n%s\n", requete);
 
 					//On crée la socket de dialogue avec le serveur web
-					webSocket = createWebSocket(hostname, "80");
+					webSocket = createWebSocket(hostname);
 
 					if(webSocket >= maxfdp1) 
 						maxfdp1 = webSocket +1;
@@ -174,7 +174,7 @@ int main(int argc, char const *argv[])
 					//On met la requete dans un fichier de log
 					char request[150];
 					searchRequest(requete, request);
-					addRequestLog(clientSockets[i], type_requete, request);
+					addRequestLog(clientSocket, type_requete, request);
 				}else if(strcmp(type_requete, "CLOSE")){
 					//On ferme la socket client
 					close(clientSocket);
@@ -184,6 +184,10 @@ int main(int argc, char const *argv[])
 					printf("\n==================================\n");
 					printf("La connexion avec le client a été fermée\n");
 					printf("\n==================================\n");
+				}else if(strcmp(type_requete, "CONNECT")){
+						//On a du HTTPS
+				}else{
+					printf("Type de requete non taité : %s\n", type_requete);
 				}
 
 				printf("\n==================================\n");

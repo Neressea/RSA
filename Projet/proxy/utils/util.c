@@ -17,18 +17,34 @@ void searchTypeRequest(char entete [], char type[]){
 
 void searchHostName(char entete[], char hostname[]){
   int i=0;
+  int https = 0;
 
   //On passe la commande
   while(entete[i] != ' ' && i < MAXENTETE)i++;
 
   //On récupère le hostname
-  int newi = i;
+  int newi = ++i; //On supprime l'espace
   int hosti = 0;
 
-  //On élimine le http://
-  while(newi - i <= 7) newi++;
+  //On regarde si'il y a http://
+  char http[8];
+  while(i - newi < 7){
+    http[i - newi] = entete[i];
+    i++;
+  }
+  http[7] = '\0';
 
-  while(entete[newi] != '/' && i < MAXHOST){
+  //On élimine le http:// s'il est présent
+  if(!strcmp(http, "http://")){
+    newi = i;
+  }else{
+    https = 1;
+  }
+
+  //Me délimitateur dépend : si on a HTTP, c'est /. Si on a HTTPS, c'est :
+  char limit = (https) ? ':' : '/';
+
+  while(entete[newi] != limit && i < MAXHOST){
     hostname[hosti++] = entete[newi];
     newi++;
   }
@@ -42,11 +58,19 @@ void searchRequest(char entete[], char requete[]){
   //On passe la commande
   while(entete[i] != ' ' && i < MAXENTETE)i++;
 
-  int newi = i;
+  int newi = ++i;
   int reqi = 0;
 
-  //On élimine le http://
-  while(newi - i <= 7) newi++;
+  //On regarde si'il y a http://
+  char http[8];
+  while(i - newi < 7){
+    http[i - newi] = entete[i];
+    i++;
+  }
+  http[7] = '\0';
+
+  //On élimine le http:// s'il est présent
+  if(!strcmp(http, "http://")) newi = i;
 
   while(entete[newi] != ' ' && i < MAXHOST){
     requete[reqi++] = entete[newi];
@@ -56,12 +80,12 @@ void searchRequest(char entete[], char requete[]){
   requete[reqi] = '\0';
 }
 
-void showMyIp(struct addrinfo *res){
+void showMyIp(struct addrinfo *res, const char *port){
   struct sockaddr_in6 *my_addr = (struct sockaddr_in6 *)res->ai_addr;
   char ip[150];
   inet_ntop(my_addr->sin6_family, my_addr->sin6_addr.s6_addr, ip, sizeof(my_addr->sin6_addr.s6_addr));
   printf("\n==================================\n");
-  printf("Lancement du serveur sur l'adresse %s sur le port %d \n", ip, my_addr->sin6_port);
+  printf("Lancement du serveur sur l'adresse %s sur le port %s \n", ip, port);
   printf("\n==================================\n");
 }
 
@@ -71,7 +95,8 @@ void addRequestLog(int socketClient, char type_req[], char request[]){
   //On récupère les infos sur le client à partir du fd
   struct sockaddr_in6 addr;
   socklen_t addr_size = sizeof(struct sockaddr_in);
-  int res = getpeername(socketClient, (struct sockaddr *)&addr, &addr_size);
+  int res = getpeername(socketClient, (struct sockaddr
+   *)&addr, &addr_size);
 
   char ip[150];
   inet_ntop(addr.sin6_family, addr.sin6_addr.s6_addr, ip, sizeof(addr.sin6_addr.s6_addr));
