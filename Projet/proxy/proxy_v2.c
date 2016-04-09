@@ -59,10 +59,8 @@ int main(int argc, char const *argv[])
 
 	showMyIp(res);
 	freeaddrinfo(res);
-
 	//On boucle à l'infini
-	int boucle = 1;
-	while(boucle){
+	while(1){
 
 		desc_set = init_set;
 
@@ -153,7 +151,7 @@ int main(int argc, char const *argv[])
 				}else{
 					//On envoie la requete au client
 					printf("\n==================================\n");
-					//printf("Réponse envoyée : \n%s\n", response);
+					printf("Réponse envoyée : \n%s\n", response);
 					printf("\n==================================\n");
 					send(clientSockets[i], response, rd, 0);
 				}

@@ -120,7 +120,6 @@ void addVisitLog(char ip[]){
 
   //Si on a atteint le fichier jusqu'au bout, on rajoute l'adresse
   if(!written){
-    printf("COUCOU\n");
     fprintf(tmp, "%s %d\n", ip, 1);
   }
 

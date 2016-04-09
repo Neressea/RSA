@@ -2,6 +2,30 @@
 
 \subsection{Version standard du proxy}
 
+\paragraph{}
+La première version du proxy n'est que l'adaptation de l'algorithme au langage. Certains morceaux de code redondant ont été transformés en fonction dans les fichiers util.c et socketutil.c du dossier utils. Le premier rassemble les fonctions de traitement de chaînes de caractère et des fichiers de log, tandis que le second regroupe les fonctions de traitement de socket (création de socket, ajout d'un client, ...).
+\paragraph{}
+Afin d'avoir un aperçu global du bon fonctionnement du proxy, un affichage exhaustif de son comportement a été réalisé (connexion/déconnexion client, requête reçue, fermeture de la connexion avec le serveur web, réponse envoyée, ...). 
+\paragraph{}
+On affiche aussi l'adresse Ip et le port de lancement. On remarque qu'étant donné que le serveur attend autant de l'IPv4 que de l'IPv6, son adresse est "::". 
+
 \subsection{Version multi-utilisateur}
+\paragraph{}
+Afin de faciliter les modifications de code dans les deux versions par la suite, de nouvelles fonctions ont été ajoutées à util.c et socketutil.c pour y mettre les morceaux de code communs (initialisation des sockets d'écoute, ...).
+\paragraph{}
+Dans cette seconde version, afin de gérer plusieurs clients, nous utilisons un tableau de descripteurs pour les sockets clients et pour les sockets web. Nous initialisons par défaut ces tableaux au nombre maximal de descripteur d'un set de descripteur (soit 1024) étant donné que le select ne pourra pas en gérer plus (on considère que le nombre de descripteurs déjà utilisé pour les sockets d'écoute et les entrée/sortie standard est négligeable). \linebreak
+Afin de faciliter la correspondance entre les sockets clients et les websockets, on les associera par le même indice (un client d'indice i attend la réponse de la websocket d'indice i).
+
+\subsection{Fichiers de logs}
+\paragraph{}
+Afin d'avoir un meilleur aperçu de l'utilisation du proxy, les deux versions renseignent des fichiers de logs (qui se trouvent dans le dossier logs). 
+\paragraph{}
+Le premier fichier (log\_visits) enregistre l'adresse IP d'un client qui se connecte au proxy. Si celui-ci n'est pas déjà dans le fichier de log, alors on l'ajoute en mettant le compteur de visite à 1. Si le client se trouve déjà dans le fichier, le compteur est incrémenté. Ceci permet d'avoir une vue globale de ses visiteurs et du nombre de leurs visites, et pourrait aussi permettre d'identifier les clients abusifs. 
+\paragraph{}
+Le second fichier (log\_requests) enregistre chaque requête effectuée auprès du proxy avec l'IP et le port d'origine de la demande. Afin de trouver l'IP d'un client à partir de son descripteur, la fonction \textit{getpeername} a été utilisée. Ce fichier permet d'avoir une liste exhaustive des requêtes faites par le proxy et ainsi d'isoler les requêtes illégales et/ou les clients effectuant trop de requêtes.
+
+\subsection{Ce qui pourrait être encore fait : le time-out}
+\paragraph{}
+On peut remarquer lors de l'utilisation du proxy que les déconnexions et reconnexions sont très fréquentes. Ceci est sans doute due au fait que les connexions ne soient pas conservées. On pourrait imaginer vérifier dans la réponse la durée de vie de la requête (keep-alive) afin de faire perdurer les connexions qui le doivent. 
 
 \subsection{Version HTTPS}

@@ -1,64 +1,77 @@
 \section{Analyse du fonctionnement d'un proxy}
-
 \subsection{Analyse d'échanges TCP et HTTP sans proxy}
-
 \paragraph{}
-
 Afin de ne pas crouler sous les données et de pouvoir analyser agréablement l'échange, nous avons utilisé le filtre :
 "(ip.src==192.168.1.76 or ip.dst==192.168.1.76) and (ip.src==193.54.21.201 or ip.dst==193.54.21.201) and tcp"
-afin de ne récupérer que les données TCP échangées entre le client et le serveur (adresse de telecomnancy.eu). HTTP est une surcouche à TCP, les paquets sont donc aussi récupérés.
+afin de ne récupérer que les données TCP échangées entre le client et le serveur (adresse de telecomnancy.eu). HTTP est une surcouche à TCP, les paquets sont donc aussi affichés.
 \paragraph{}
 La requête engendre tout d'abord un three-way handshake (SYN, SYN-ACK, ACK) afin d'initialiser la connexion TCP.
 Après ces 3 paquets TCP, le premier paquet HTTP est envoyé par le navigateur.
 \paragraph{}
 Ce paquet, en plus des données d'un paquet TCP, contient aussi l'en-tête HTTP de la requête. On trouve notamment les informations concernant le type de la requête (GET), sur le navigateur, sur les cookies et enfin sur la page demandée. \paragraph{}
-
 Ensuite, de multiples échanges TCP se font à nouveau. Il s'agit de la réponse à la requête en fragments, comme on peut le déduire depuis l'annotation "TCP segment of a reassembled PDU". Ceci nous indique que le paquet contient des données d'un protocole étant une surcouche à TCP (HTTP dans notre cas). Il y a aussi les paquets des ACK envoyés par le navigateur. \paragraph{}
-
 Ensuite tous ces segments sont recomposés en un seul paquet HTTP. Ce paquet indique en effet qu'il résulte de la recomposition de 8 autres segments TCP. Ce segment contient à nouveau les données TCP et l'en-tête de la réponse HTTP qui nous indique que la requête a bien été exécutée (200 OK) mais aussi la taille des données de la réponse. Car en effet, le paquet contient en plus les données HTML correspondant à la réponse de la requête.  \linebreak
 \paragraph{}
 On remarque que malgré le fait que la requête n'ait été exécutée qu'une seule fois, plusieurs GET sont effectués. Ceci est dû à la réponse HTML, qui importe des fichiers depuis d'autres emplacements du serveur (css, javascript, ...). Le navigateur va donc effectuer des requêtes pour les récupérer afin de pouvoir afficher la page normalement. \linebreak
-
 \subsection{Analyse d'échanges TCP et HTTP avec proxy}
 \paragraph{}
-Afin d'analyser les échanges avec un proxy, nous avons modifié les paramètres de notre navigateur pour nous connecter au proxy gratuit d'adresse 162.223.88.243. Nous avons aussi modifié le filtre wireshark, étant donné que nous ne contactons plus directement le serveur de destination : "(ip.src==192.168.1.76 or ip.src==162.223.88.243) and (ip.dest==192.168.1.76 or ip.dst==162.223.88.243) and tcp"\linebreak
+Afin d'analyser les échanges avec un proxy, nous avons modifié les paramètres de notre navigateur pour nous connecter au proxy gratuit d'adresse 162.223.88.243. Nous avons aussi modifié le filtre \textit{Wireshark}, étant donné que nous ne contactons plus directement le serveur de destination : "(ip.src==192.168.1.76 or ip.src==162.223.88.243) and (ip.dest==192.168.1.76 or ip.dst==162.223.88.243) and tcp"\linebreak
 \paragraph{}
 La connexion TCP est à nouveau débutée par un three-way handshake, mais cette fois-ci entre le client et le proxy.
-Ensuite, le navigateur envoie la requête HTTP. N.B.: On remarque la mauvaise qualité de la connexion avec les duplications de paquets.\linebreak
+Ensuite, le navigateur envoie la requête HTTP. N.B.: On remarque la mauvaise qualité de la connexion par les paquets dupliqués.\linebreak
 \paragraph{}
 Ensuite, l'échange de paquets TCP contenant des fragments de la réponse HTTP a de nouveau lieu entre le client et le proxy. Le paquet HTTP est reconstitué avec son en-tête et ses données HTML.
 \paragraph{}
-L'échange entre le client le proxy est donc semblable à l'échange entre le client et le proxy. Le serveur proxy reçoit donc la requête vers le serveur, l'exécute, reçoit les données et les envoie de la même manière qu'il les a reçues.
+L'échange entre le client le proxy est donc semblable à l'échange entre le client et le proxy. Le serveur proxy reçoit donc la requête vers le serveur, l'exécute, reçoit les données et les envoie de la même manière qu'il les a reçues au serveur web.
 
 \subsection{Algorithme général d'un proxy}
 
 \begin{algorithm}[H]
- \KwData{serverSocket, clientSocket, destSocket, rcvBuff, sendBuff, servAddr}
+ \KwData{serverSocket, clientSocket, webSocket, requete, response, servAddr}
  \KwResult{Réception d'une requête d'un client, envoi au serveur et transfert de la réponse au client}
  \While{true}{
   Attente de la connexion TCP d'un client\;
-  \While{données à lire sur clientSocket}{
-  	rcvBuff += lire(socketClient); //On récupère la requête du client
-  }
+  requete += recevoir(socketClient); //On récupère la requête du client
   
-  servAddr = gethostbyname(rcvBuff.hostname); //On récupère l'adresse du serveur
+  servAddr = trouverHost(requete); //On récupère l'adresse du serveur
   
-  destSocket = socket(servAddr); //On crée la socket sur le serveur de destination
+  webSocket = créerSocket(servAddr); //On crée la socket sur le serveur de destination
   
-  send(rcvBuff, destSocket); //On envoie la requête au serveur
+  envoyer(requete, webSocket); //On envoie la requête au serveur
   
-  accept(destSocket); //On attend la réponse du serveur
+  connexion(webSocket); //On se connecte au serveur
   
-  \While{données à lire sur destSocket}{
+  \While{données à lire sur webSocket}{
    \eIf{taille des données == 0}{
    		//On ferme la connexion \linebreak
 		close(serverSocket)\;
 		close(clientSocket);    
     }{
-  		sendBuff += lire(destSocket); // On lit un morceau de la réponse
-  		send(sendBuff, clientSocket); //On transfère la donnée
+  		response = lire(webSocket); // On lit un morceau de la réponse
+  		envoyer(response, clientSocket); //On transfère la donnée
   	}
   }
  }
  \caption{Algorithme d'un proxy}
+\end{algorithm}
+
+\paragraph{}
+Toutes les fonctions utilisées ici sont déjà implémentées en C, hormis trouverHost(requete). Nous allons donc nous attacher à expliquer son fonctionnement ici. \linebreak
+Nous savons que l'en-tête d'une requête sera toujours de la forme "GET http://hostname/pageRecherchée.html HTTP/1.1". Notons qu'hostname peut être de la fome www.host.com ou seulement host.com sans que cela n'ait d'incidence. De plus, "pageRecherchée.html" peut être vide. \linebreak
+Afin d'isoler la méthode utilisée, nous pouvons donc simplement lire la chaine de la requête jusqu'à rencontrer le premier espace. Ensuite, on peut supprimer la partie "http://" en incrémentant le pointeur. Puis on peut lire le hostname jusqu'au premier "/". Au final nous aurons donc : \linebreak
+\begin{algorithm}[H]
+ \KwData{requete, hostname, i}
+ \KwResult{trouverHost(requete)}
+ \While{requete != ' '}{
+  requete++; //On supprime la méthode de la requête
+  }
+  requete += 7; //On supprime 'http://'
+  
+  i = 0;
+  \While{requete[i] != '/'}{
+   hostname[i++] = requete[i++]
+   }
+   
+   retourner hostname;
+ \caption{Fonction trouverHost}
 \end{algorithm}

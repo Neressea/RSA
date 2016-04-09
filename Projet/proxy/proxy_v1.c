@@ -55,8 +55,7 @@ int main(int argc, char const *argv[])
 	freeaddrinfo(res);
 
 	//On boucle à l'infini
-	int boucle = 1;
-	while(boucle){
+	while(1){
 
 		desc_set = init_set;
 
@@ -171,6 +170,11 @@ int main(int argc, char const *argv[])
 
 					//Puis enfin on envoie la requête au serveur web
 					send(webSocket, requete, rd, 0);
+
+					//On met la requete dans un fichier de log
+					char request[150];
+					searchRequest(requete, request);
+					addRequestLog(clientSockets[i], type_requete, request);
 				}else if(strcmp(type_requete, "CLOSE")){
 					//On ferme la socket client
 					close(clientSocket);
