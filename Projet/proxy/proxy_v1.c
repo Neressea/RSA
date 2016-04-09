@@ -7,8 +7,6 @@ int main(int argc, char const *argv[])
 	///// Déclarations des variables
 
 	//Pour gérer getaddrinfo
-	int err_code;
-	struct addrinfo criteres;
 	struct addrinfo *res = NULL;
 
 	//Socket d'écoute du serveur

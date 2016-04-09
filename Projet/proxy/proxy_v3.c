@@ -1,6 +1,7 @@
 
 #include "utils/socketutil.h"
 #include "utils/util.h"
+#include "utils/secureutil.h"
 
 int main(int argc, char const *argv[])
 {
@@ -33,6 +34,7 @@ int main(int argc, char const *argv[])
 	}
 
 	///// On crée la socket pour gérer les requêtes IPv4 et IPv6
+	initSecureConnection();
 	initServerSocket(&res, argv[1]);
 
 	//On ouvre la socket IPv4
@@ -56,7 +58,7 @@ int main(int argc, char const *argv[])
 	for(i=0; i<FD_SETSIZE-1; i++){
 		clientSockets[i] = -1;
 		webSockets[i] = -1;
-		webSecureCo = NULL;
+		webSecureCo[i] = NULL;
 	}
 
 	showMyIp(res, argv[1]);
@@ -141,11 +143,16 @@ int main(int argc, char const *argv[])
 					rd = recv(webSocket, response, MAXRESPONSE, 0);
 
 				}else{ //on a une réponse d'une connexion sécurisée
-					rd = SSL_read(webSecureCo, response, MAXRESPONSE);
+					rd = SSL_read(webSecureCo[i], response, MAXRESPONSE);
 				}
 
 				if(rd < 0){
 					perror("Erreur dans la lecture de la reponse");
+
+					if(webSecureCo[i] != NULL){
+						printError(SSL_get_error(webSecureCo[i], rd));
+					}
+
 		  			close(webSocket);
 		  			exit(5);
 				}else if(rd == 0){//On regarde si le serveur a fermé la connexion
@@ -175,13 +182,6 @@ int main(int argc, char const *argv[])
 				//On met à jour le tableau
 				webSockets[i] = webSocket;
 				nbfd--;
-			}
-
-			/*** On regard si l'on a une réponse d'un serveur sécurisé***/
-			if(webSocketsSecure[i] >= 0 && FD_ISSET(webSocketsSecure[i], &desc_set)){
-				//On lit la réponse du site web
-				memset(response, 0, MAXRESPONSE);
-				rd = recv(webSocket, response, MAXRESPONSE, 0);
 			}
 
 			/*** on regarde si l'on a une requete du client ***/

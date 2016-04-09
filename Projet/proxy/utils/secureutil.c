@@ -3,9 +3,9 @@
 void initSecureConnection(){
 	//On initialise la connexion HTTPS
 	//On initialise OpenSSL
-	SSL_load_error_strings();
 	SSL_library_init();
-	ssl_ctx = SSL_CTX_new (SSLv23_client_method ());
+	SSL_load_error_strings();
+	ssl_ctx = SSL_CTX_new(TLSv1_1_client_method());
 }
 
 int createSecureSocket(char hostname[], int indice, SSL* webSecureCo[]){
@@ -42,6 +42,11 @@ int createSecureSocket(char hostname[], int indice, SSL* webSecureCo[]){
 		exit(10);
 	}
 
+	if(connect (webSocket, res->ai_addr, res->ai_addrlen)  < 0){
+		printf("Problème connect pour la socket web\n");
+		exit(1);
+	}
+
 	SSL *conn = SSL_new(ssl_ctx);
 	if(conn == NULL){
 		printf("Problème connect pour la socket web securisee\n");
@@ -49,9 +54,43 @@ int createSecureSocket(char hostname[], int indice, SSL* webSecureCo[]){
 	}
 
 	SSL_set_fd(conn, webSocket);
-	freeaddrinfo(res);
 
+	if ( SSL_connect(conn) != 1 ){   /* perform the connection */
+        perror("ERREUR");
+        ERR_print_errors_fp(stderr);
+    }
+
+	freeaddrinfo(res);
 	webSecureCo[indice] = conn;
 
 	return webSocket;
 } 
+
+void printError(int errcode){
+	switch(errcode){
+		case SSL_ERROR_WANT_READ:
+			printf("Une erreur SSL a eu lieu : SSL_ERROR_WANT_READ\n");
+			break;
+		case SSL_ERROR_WANT_WRITE:
+			printf("Une erreur SSL a eu lieu : SSL_ERROR_WANT_WRITE\n");
+			break;
+		case SSL_ERROR_WANT_CONNECT:
+			printf("Une erreur SSL a eu lieu : SSL_ERROR_WANT_CONNECT\n");
+			break;
+		case SSL_ERROR_WANT_ACCEPT:
+			printf("Une erreur SSL a eu lieu : SSL_ERROR_WANT_ACCEPT\n");
+			break;
+		case SSL_ERROR_WANT_X509_LOOKUP:
+			printf("Une erreur SSL a eu lieu : SSL_ERROR_WANT_X509_LOOKUP\n");
+			break;
+		// case SSL_ERROR_WANT_ASYNC:
+		// 	printf("Une erreur SSL a eu lieu : SSL_ERROR_WANT_ASYNC\n");
+		// 	break;
+		case SSL_ERROR_SYSCALL:
+			printf("Une erreur SSL a eu lieu : SSL_ERROR_SYSCALL\n");
+			break;
+		case SSL_ERROR_SSL:
+			printf("Une erreur SSL a eu lieu : SSL_ERROR_SSL\n");
+			break;
+	}
+}
