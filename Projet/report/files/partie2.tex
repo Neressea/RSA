@@ -3,7 +3,9 @@
 \subsection{Version standard du proxy}
 
 \paragraph{}
-La première version du proxy n'est que l'adaptation de l'algorithme au langage. Certains morceaux de code redondant ont été transformés en fonction dans les fichiers util.c et socketutil.c du dossier utils. Le premier rassemble les fonctions de traitement de chaînes de caractère et des fichiers de log, tandis que le second regroupe les fonctions de traitement de socket (création de socket, ajout d'un client, ...).
+La première version du proxy n'est que l'adaptation de l'algorithme au langage. Il n'accepte qu'un seul client à la fois. Toute autre demande durant le traitement d'un client est ignorée. 
+\paragraph{}
+Certains morceaux de code redondant ont été transformés en fonction dans les fichiers util.c et socketutil.c du dossier utils. Le premier rassemble les fonctions de traitement de chaînes de caractère et des fichiers de log, tandis que le second regroupe les fonctions de traitement de socket (création de socket, ajout d'un client, ...).
 \paragraph{}
 Afin d'avoir un aperçu global du bon fonctionnement du proxy, un affichage exhaustif de son comportement a été réalisé (connexion/déconnexion client, requête reçue, fermeture de la connexion avec le serveur web, réponse envoyée, ...). 
 \paragraph{}
