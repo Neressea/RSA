@@ -65,7 +65,7 @@ int openServer(int serverSocket4, int serverSocket6){
 	return (serverSocket4 < serverSocket6) ? serverSocket6 + 1 : serverSocket4 + 1;
 }
 
-int createWebSocket(char hostname[]){
+int createWebSocket(char hostname[], char service[]){
 	//Pour gérer getaddrinfo
 	int err_code;
 	struct addrinfo *res, criteres;
@@ -80,7 +80,7 @@ int createWebSocket(char hostname[]){
 	//On veut tout prendre : IPv4 et IPv6
 	criteres.ai_family = AF_UNSPEC;
 
-	err_code = getaddrinfo(hostname, "80", &criteres, &res);
+	err_code = getaddrinfo(hostname, service, &criteres, &res);
 	if(err_code){
 		fprintf(stderr, "Erreur dans le getaddreinfo : %s\n", gai_strerror(err_code));
 		exit(1);

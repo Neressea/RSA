@@ -193,12 +193,18 @@ int main(int argc, char const *argv[])
 					printf("la requete est de type : %s\n", type_requete);
 
 					//On ne considère que les requêtes GET
-					if(strcmp(type_requete, "GET") == 0){
+					if(strcmp(type_requete, "GET") == 0 || strcmp(type_requete, "CONNECT") == 0){
+
+						char *service = "80";
+
+						if(strcmp(type_requete, "CONNECT") == 0)
+							service = "443";
+
 						searchHostName(requete, hostname);
 						printf("Hostname desire : %s\n", hostname);
 
 						//On crée la socket de dialogue avec le serveur web
-						webSocket = createWebSocket(hostname, "80");
+						webSocket = createWebSocket(hostname, service);
 
 						//On ne cherche pas la première case non utilisée du tableau.
 						//On utilise l'indice i pour lier les sockets clients aux websockets correspondantes
@@ -208,20 +214,23 @@ int main(int argc, char const *argv[])
 						FD_SET(webSocket, &init_set);
 
 						//Puis enfin on envoie la requête au serveur web
-						send(webSocket, requete, rd, 0);
+						if(strcmp(type_requete, "CONNECT"))
+							send(webSocket, requete, rd, 0);
+						else{
+							char msg[7] = "200 OK\n";
+							send(clientSocket, msg, 7, 0);
+							service = "443";
+						}
 
 						//On met tout ça dans un fichier de log
 						char request[150];
 						searchRequest(requete, request);
 						addRequestLog(clientSockets[i], type_requete, request);
-					}else if(strcmp(type_requete, "CLOSE")){
-						close(clientSocket);
-						FD_CLR(clientSocket, &init_set);
-						clientSocket = -1;
-						printf("\n==================================\n");
-						printf("La connexion avec le client a été fermée\n");
-						printf("\n==================================\n");
+					}else{
+						printf("Envoi d'un paquet HTTPS\n");
+						send(webSockets[i], requete, rd, 0);
 					}
+
 					printf("\n==================================\n");
 				}
 

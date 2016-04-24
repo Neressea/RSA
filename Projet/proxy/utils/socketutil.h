@@ -20,7 +20,7 @@
 #define MAXRESPONSE 1500
 
 int createSocket(struct addrinfo *res);
-int createWebSocket(char hostname[]);
+int createWebSocket(char hostname[], char service[]);
 int addClient(int socket, fd_set *set);
 int openServer(int serverSocket4, int serverSocket6);
 void initServerSocket(struct addrinfo **res, const char *num_port);

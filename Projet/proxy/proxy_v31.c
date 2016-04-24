@@ -223,7 +223,7 @@ int main(int argc, char const *argv[])
 						printf("Requete complete : \n%s\n", requete);
 
 						//On crée la socket de dialogue avec le serveur web
-						webSocket = createWebSocket(hostname);
+						webSocket = createWebSocket(hostname, "80");
 
 						//On ne cherche pas la première case non utilisée du tableau.
 						//On utilise l'indice i pour lier les sockets clients aux websockets correspondantes
