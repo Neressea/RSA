@@ -32,6 +32,6 @@ On peut remarquer lors de l'utilisation du proxy que les déconnexions et reconn
 
 \subsection{Version HTTPS}
 \paragraph{}
-La partie HTTPS (la version 3 du proxy) a été débutée mais n'est pas fonctionnelle. Elle est équivalente à la version 2.
-Afin d'ajouter la gestion HTTPS, OpenSSL a été installé sur les PCs utilisés. Les fonctions SSL\_write et SSL\_read ont remplacé recv et send, et des méthodes particulières ont dû être ajoutées dans le nouveau fichier utils/secureutil.c. 
-Cependant les requêtes envoyées sur les serveur web retournent toujours une erreur 40X. 
+Nous tenons à remercier à Nicolas \textsc{Bédrine} pour cette partie. En effet, les forums sur lesquels nous sommes tombés proposaient d'utiliser la bibliothèque C openSSL. Cependant nous n'avons pas réussi à implémenter le code de manière fonctionnelle avec cette méthode. Avec le recul, cette bibliothèque est sans doute plus utile pour un serveur ou un client HTTPS que pour un proxy. C'est donc Nicolas qui nous a expliqué le fonctionnement de HTTPS. \linebreak
+Nous suivons donc le schéma suivant : lorsque nous recevons un paquet CONNECT, nous savons qu'un client veut initier une connexion HTTPS. Pour ce faire, nous lui créons une websocket vers le serveur sur le port 443 et nous renvoyons un 200 OK au client pour signifier à ce dernier qu'il peut envoyer ses données. \linebreak
+Ensuite, lors de la phase d'échange, lorsque nous recevons une donnée du serveur, nous la transmettons immédiatement au client. Et lorsque l'on reçoit un paquet de type inconnu de la part d'un client, on renvoie directement et sans traitement le paquet au serveur. En effet, étant donnée que les données sont cryptées, nous ne pouvons récupérer aucune information sur l'échange.
