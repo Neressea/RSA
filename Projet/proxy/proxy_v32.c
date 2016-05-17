@@ -137,12 +137,12 @@ int main(int argc, char const *argv[])
 
 				if(rd < 0){
 					perror("Erreur dans la lecture de la reponse");
-		  			close(webSocket);
+	        
 		  			exit(5);
 				}else if(rd == 0){//On regarde si le serveur a fermé la connexion
 
 					//On ferme la socket web
-					close(webSocket);
+			        
 					FD_CLR(webSocket, &init_set);
 					webSocket = -1;
 					printf("\n==================================\n");
@@ -172,12 +172,12 @@ int main(int argc, char const *argv[])
 				//On vérifie qu'il n'y ait pas eu d'erreur dans la lecture
 				if(rd < 0){
 					perror("Erreur dans la lecture de la requête");
-		  			close(clientSocket);
+		  	        
 		  			exit(5);
 				}else if(rd == 0) { //On regarde si le client a fermé la connexion
 
 					//On ferme la socket client
-					close(clientSocket);
+			        
 					FD_CLR(clientSocket, &init_set);
 					clientSocket = -1;
 					printf("\n==================================\n");

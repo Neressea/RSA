@@ -2125,3 +2125,256 @@
 :: 25554 CONNECT portail-crous.crous-nancy-metz.fr:443
 :: 29906 CONNECT www.facebook.com:443
 :: 20435 CONNECT tiles.services.mozilla.com:443
+U∑\∑ 59081 CONNECT www.youtube.com:443
+p∑\∑ 61129 CONNECT ad.doubleclick.net:443
+p∑\∑ 61641 CONNECT i.ytimg.com:443
+p∑\∑ 63689 CONNECT pubads.g.doubleclick.net:443
+p∑\∑ 64713 CONNECT secure.insightexpressai.com:443
+p∑\∑ 714 CONNECT googleads.g.doubleclick.net:443
+p∑\∑ 1226 CONNECT cm.g.doubleclick.net:443
+p∑\∑ 2762 CONNECT ww1082.smartadserver.com:443
+p∑\∑ 3786 CONNECT www.youtube.com:443
+p∑\∑ 5834 CONNECT fonts.gstatic.com:443
+p∑\∑ 6346 CONNECT s.ytimg.com:443
+p∑\∑ 8394 CONNECT static.doubleclick.net:443
+p∑\∑ 9418 CONNECT s.youtube.com:443
+p∑\∑ 10442 CONNECT r7---sn-hgn7zn7k.googlevideo.com:443
+p∑\∑ 10954 CONNECT r7---sn-hgn7zn7k.googlevideo.com:443
+p∑\∑ 12490 CONNECT pubads.g.doubleclick.net:443
+p∑\∑ 13002 CONNECT i.ytimg.com:443
+p∑\∑ 13514 CONNECT yt3.ggpht.com:443
+p∑\∑ 15562 GET dailymotion.fr/
+p∑\∑ 15562 GET www.dailymotion.com/fr
+p∑\∑ 17610 CONNECT secure.insightexpressai.com:443
+p∑\∑ 18634 CONNECT tpc.googlesyndication.com:443
+p∑\∑ 20170 CONNECT securepubads.g.doubleclick.net:443
+p∑\∑ 22730 CONNECT ww1082.smartadserver.com:443
+p∑\∑ 23754 CONNECT api.dailymotion.com:443
+p∑\∑ 24778 CONNECT api.dailymotion.com:443
+p∑\∑ 25290 CONNECT www.google-analytics.com:443
+p∑\∑ 15562 GET s1.dmcdn.net/XCTwJ/214x120-fcD.jpg
+p∑\∑ 28362 GET s2.dmcdn.net/W7XRR/214x120-GZZ.jpg
+p∑\∑ 28874 GET s2.dmcdn.net/XHDTF/214x120-HxZ.jpg
+p∑\∑ 29386 GET s2.dmcdn.net/WX8WC/214x120-9hY.jpg
+p∑\∑ 31434 CONNECT s.ytimg.com:443
+p∑\∑ 15562 GET s2.dmcdn.net/WX8WC/427x240-oU8.jpg
+p∑\∑ 28362 GET s2.dmcdn.net/W7XRR/427x240-Uxw.jpg
+p∑\∑ 28874 GET s2.dmcdn.net/XHDTF/427x240-xBx.jpg
+p∑\∑ 29386 GET s1.dmcdn.net/XCTwJ/427x240-3So.jpg
+p∑\∑ 34506 CONNECT stats.g.doubleclick.net:443
+p∑\∑ 35530 CONNECT www.google.com:443
+p∑\∑ 15562 GET w.estat.com/m/web/800000206980?n=312996224&type=whap&r=&v=0.20
+p∑\∑ 28362 GET b.scorecardresearch.com/b?c1=2&c2=4000005&ns__t=1463415829997&ns_c=UTF-8&cv=3.1&c8=Dailymotion%20-%20404%20Page%20non%20trouv%C3%A9e&c7=http%3A%2F%2Fwww.dailymotion.com%2Ffr&c9=
+p∑\∑ 28874 GET pq-direct.revsci.net/pql?placementIdList=Yzgfk7,NDu9xl,u7hqK2,Cs0XXD,lMoxcA&cb=1463415829644
+p∑\∑ 29386 GET js.revsci.net/gateway/gw.js?csid=F09828&auto=t&bpid=dailymotion
+p∑\∑ 36042 CONNECT static.doubleclick.net:443
+p∑\∑ 36554 CONNECT www.gstatic.com:443
+p∑\∑ 37066 CONNECT clients1.google.com:443
+p∑\∑ 38090 GET cdn.krxd.net/controltag?confid=IfwB8IQs
+p∑\∑ 38602 GET rtax.criteo.com/delivery/rta/rta.js?netId=11&cookieName=co_fr&rnd=94713692611&varName=crtg_content
+p∑\∑ 39114 CONNECT r10---sn-p5qlsn7e.googlevideo.com:443
+p∑\∑ 39626 CONNECT www.facebook.com:443
+p∑\∑ 46794 CONNECT r14---sn-hgn7zn7s.googlevideo.com:443
+p∑\∑ 51402 CONNECT r14---sn-hgn7zn7s.googlevideo.com:443
+p∑\∑ 52426 CONNECT pagead2.googlesyndication.com:443
+p∑\∑ 53450 CONNECT www.youtube-nocookie.com:443
+p∑\∑ 28874 GET pix04.revsci.net/F09828/b3/0/3/120814/482253613.js?D=DM_LOC%3Dhttp%253A%252F%252Fwww.dailymotion.com%252Ffr%253Fbpid%253Ddailymotion%2526_rsiL%253D0%26DM_EOM%3D1&C=F09828
+p∑\∑ 54986 CONNECT www.google.com:443
+p∑\∑ 28874 GET ib.adnxs.com/getuid?%2F%2Fpix04.revsci.net%2FJ13421%2Fa3%2F0%2F3%2F0.302%3FmatchId%3Dadnxs%26DM_LOC%3Dhttp%253A%252F%252Fappnexus.com%252F0.gif%253Fid%253D$UID
+p∑\∑ 56522 CONNECT s.youtube.com:443
+p∑\∑ 28874 GET ib.adnxs.com/getuid?//pix04.revsci.net/J13421/a3/0/3/0.302?matchId=adnxs&DM_LOC=http%3A%2F%2Fappnexus.com%2F0.gif%3Fid%3D2569872681534628493
+p∑\∑ 49068 CONNECT r7---sn-hgn7zn7k.googlevideo.com:443
+\∑,c∑ 38604 GET s2.dmcdn.net/XG4Tu/427x240-Q6z.jpg
+w∑,c∑ 38604 GET www.google.com/
+w∑,c∑ 38604 GET www.google.fr/?gfe_rd=cr&ei=R_Q5V-7iJo2FaJDjg6gN
+w∑,c∑ 41164 CONNECT www.google.fr:443
+w∑,c∑ 42188 CONNECT consent.google.com:443
+w∑,c∑ 45260 CONNECT staticxx.facebook.com:443
+w∑,c∑ 46796 CONNECT www.google.fr:443
+w∑,c∑ 47820 CONNECT consent.google.com:443
+w∑,c∑ 48844 CONNECT ssl.gstatic.com:443
+w∑,c∑ 49868 CONNECT www.youtube.com:443
+w∑,c∑ 50892 CONNECT www.gstatic.com:443
+w∑,c∑ 52428 CONNECT apis.google.com:443
+w∑,c∑ 53452 CONNECT ad.doubleclick.net:443
+w∑,c∑ 54476 CONNECT pubads.g.doubleclick.net:443
+w∑,c∑ 55500 CONNECT www.google.com:443
+w∑,c∑ 56524 CONNECT secure.insightexpressai.com:443
+w∑,c∑ 58060 CONNECT securepubads.g.doubleclick.net:443
+w∑,c∑ 58572 CONNECT cm.g.doubleclick.net:443
+w∑,c∑ 61132 CONNECT ww1082.smartadserver.com:443
+w∑,c∑ 62668 GET www.palaiszelda.com/
+w∑,c∑ 63692 GET www.palaiszelda.com/zelda.css
+w∑,c∑ 64204 GET www.palaiszelda.com/zelda_print.css
+w∑,c∑ 64716 GET www.palaiszelda.com/ddlevelsmenu.css
+w∑,c∑ 65228 GET www.palaiszelda.com/ddlevelsmenu.js
+w∑,c∑ 205 GET www.google.com/cse/brand?form=cse-search-box&lang=fr
+w∑,c∑ 1229 GET wms-eu.amazon-adsystem.com/20070822/FR/js/AmazonWidgets.js
+w∑,c∑ 2253 GET pub5.media-clic.com/www/delivery/asyncjs.js
+w∑,c∑ 3277 GET ir-fr.amazon-adsystem.com/s/asw.js
+w∑,c∑ 3789 GET pagead2.googlesyndication.com/pagead/js/adsbygoogle.js
+w∑,c∑ 63692 GET www.palaiszelda.com/images/triforce.png
+w∑,c∑ 64204 GET www.palaiszelda.com/images/1pix.gif
+w∑,c∑ 64716 GET www.palaiszelda.com/images/loupe.png
+w∑,c∑ 65228 GET www.palaiszelda.com/images/chapAutres.png
+w∑,c∑ 205 GET www.palaiszelda.com/images/chapJeux.png
+w∑,c∑ 1229 GET www.palaiszelda.com/images/chapInteractif.png
+w∑,c∑ 3277 GET www.palaiszelda.com/images/chapFans.png
+w∑,c∑ 3789 GET www.palaiszelda.com/images/chapDossiers.png
+w∑,c∑ 62668 GET www.palaiszelda.com/images/icoALTTP.png
+w∑,c∑ 8397 GET www.palaiszelda.com/images/icoOOT.png
+w∑,c∑ 64204 GET www.palaiszelda.com/images/chapAffilies.png
+w∑,c∑ 8909 GET www.palaiszelda.com/images/icoLA.png
+w∑,c∑ 63692 GET www.palaiszelda.com/images/divers/liens/zSource.jpg
+w∑,c∑ 9421 GET www.palaiszelda.com/images/icoAOL.png
+w∑,c∑ 62668 GET www.palaiszelda.com/menuMobile.js
+w∑,c∑ 9933 GET www.palaiszelda.com/images/icoLOZ.png
+w∑,c∑ 8397 GET wms-eu.amazon-adsystem.com/20070822/FR/js/link-enhancer-common.js?tag=lepaldezel-21
+w∑,c∑ 10445 GET www.palaiszelda.com/images/chapCadeaux.png
+w∑,c∑ 63692 GET www.palaiszelda.com/images/accueil_concours.jpg
+w∑,c∑ 64716 GET www.palaiszelda.com/images/accueil_art305.jpg
+w∑,c∑ 8909 GET www.palaiszelda.com/images/accueil_art275.jpg
+w∑,c∑ 3277 GET www.palaiszelda.com/images/accueil_fond.jpg
+w∑,c∑ 10957 GET www.palaiszelda.com/images/chapEtAussi.png
+w∑,c∑ 62668 GET www.palaiszelda.com/images/bann_pdzShop_mobiles.png
+w∑,c∑ 65228 GET www.palaiszelda.com/images/accueil_art311.png
+w∑,c∑ 205 GET www.palaiszelda.com/images/accueil_art310.jpg
+w∑,c∑ 1229 GET www.palaiszelda.com/images/accueil_fanart.jpg
+w∑,c∑ 8397 GET www.palaiszelda.com/images/accueil_art299.jpg
+w∑,c∑ 9421 GET www.palaiszelda.com/images/accueil_art309.jpg
+w∑,c∑ 12493 GET www.palaiszelda.com/images/icoMM.png
+w∑,c∑ 64204 GET wms-eu.amazon-adsystem.com/panda/20070822/FR/js/8001_7.js
+w∑,c∑ 3789 GET www.palaiszelda.com/images/accueil_art271.jpg
+w∑,c∑ 9933 GET www.palaiszelda.com/images/accueil_art277.jpg
+w∑,c∑ 13517 GET www.palaiszelda.com/images/icoOOS.png
+w∑,c∑ 14029 GET www.palaiszelda.com/images/icoOOA.png
+w∑,c∑ 14541 GET www.palaiszelda.com/images/icoFS.png
+w∑,c∑ 63692 GET www.palaiszelda.com/images/accueil_cosplays.jpg
+w∑,c∑ 64716 GET www.palaiszelda.com/images/accueil_art307.jpg
+w∑,c∑ 8909 GET www.palaiszelda.com/images/accueil_shop2.jpg
+w∑,c∑ 9421 GET www.palaiszelda.com/images/accueil_tp_tampons.jpg
+w∑,c∑ 205 GET www.palaiszelda.com/images/anim_ciela.gif
+w∑,c∑ 3277 GET www.palaiszelda.com/images/banniereSize2.png
+w∑,c∑ 15053 GET www.palaiszelda.com/images/icoTWW.png
+w∑,c∑ 16077 GET www.palaiszelda.com/images/icoTMC.png
+w∑,c∑ 16589 GET www.palaiszelda.com/images/icoFSA.png
+w∑,c∑ 17613 GET www.palaiszelda.com/images/icoTP.png
+w∑,c∑ 18125 GET www.palaiszelda.com/images/icoPH.png
+w∑,c∑ 18637 GET www.palaiszelda.com/images/icoST.png
+w∑,c∑ 19661 GET www.palaiszelda.com/images/icoSS.png
+w∑,c∑ 20173 GET www.palaiszelda.com/images/icoALBW.png
+w∑,c∑ 20685 GET www.palaiszelda.com/images/icoTFH.png
+w∑,c∑ 21197 GET www.palaiszelda.com/images/icoFin.png
+w∑,c∑ 22221 GET www.palaiszelda.com/images/chapShopping.png
+w∑,c∑ 22733 GET www.palaiszelda.com/images/chapSondages.png
+w∑,c∑ 31437 GET ws-eu.amazon-adsystem.com/widgets/q?MarketPlace=FR&Operation=MyFavorites&ServiceVersion=20070822&WS=1&ID=LStrings
+w∑,c∑ 32973 CONNECT cse.google.com:443
+w∑,c∑ 42701 CONNECT s.youtube.com:443
+w∑,c∑ 43213 CONNECT r7---sn-hgn7zn7k.googlevideo.com:443
+w∑,c∑ 43725 CONNECT r7---sn-hgn7zn7k.googlevideo.com:443
+w∑,c∑ 51917 CONNECT googleads.g.doubleclick.net:443
+w∑,c∑ 3277 GET wms-eu.amazon-adsystem.com/js/popup.js
+w∑,c∑ 62668 GET wms-eu.amazon-adsystem.com/js/nifty.js
+w∑,c∑ 63692 GET wms-eu.amazon-adsystem.com/js/colors.js
+w∑,c∑ 64204 GET wms-eu.amazon-adsystem.com/js/popup.js
+w∑,c∑ 3277 GET wms-eu.amazon-adsystem.com/js/nifty.js
+w∑,c∑ 3277 GET wms-eu.amazon-adsystem.com/js/colors.js
+w∑,c∑ 57549 CONNECT r12---sn-hgn7zn7r.googlevideo.com:443
+w∑,c∑ 58573 CONNECT r12---sn-hgn7zn7r.googlevideo.com:443
+w∑,c∑ 62668 GET www.palaiszelda.com/images/fondAccueil.png
+w∑,c∑ 64204 GET ir-fr.amazon-adsystem.com/s/asw.js
+w∑,c∑ 3277 GET ws.amazon.fr/widgets/q?rt=tf_cw&ServiceVersion=20070822&MarketPlace=FR&ID=V20070822%2FFR%2Flepaldezel-21%2F8010%2Fdd6b9ea5-8f5b-40fe-b876-3c2a94626216&Operation=GetDisplayTemplate
+w∑,c∑ 59085 CONNECT pagead2.googlesyndication.com:443
+w∑,c∑ 60109 CONNECT www.youtube-nocookie.com:443
+w∑,c∑ 59597 CONNECT s.ytimg.com:443
+w∑,c∑ 61645 CONNECT i1.ytimg.com:443
+w∑,c∑ 63692 GET www.palaiszelda.com/images/piedPageSimple.png
+w∑,c∑ 64204 GET pagead2.googlesyndication.com/pagead/js/adsbygoogle.js
+w∑,c∑ 62157 CONNECT www.googleapis.com:443
+w∑,c∑ 3277 GET pub5.media-clic.com/www/delivery/asyncjs.js
+w∑,c∑ 64205 CONNECT yt3.ggpht.com:443
+w∑,c∑ 31437 GET g-ecx.images-amazon.com/images/G/08/associates/widgets//20070822/FR/Flash/Widgets._V1452710699_.swf?ServiceVersion=20070822&MarketPlace=FR&ID=V20070822/FR/lepaldezel-21/8010/dd6b9ea5-8f5b-40fe-b876-3c2a94626216&rt=as_sl_pd_tf_cw
+w∑,c∑ 64717 CONNECT i.ytimg.com:443
+w∑,c∑ 206 CONNECT www.googletagservices.com:443
+w∑,c∑ 718 CONNECT www.google.com:443
+w∑,c∑ 4302 CONNECT www.google-analytics.com:443
+w∑,c∑ 7886 CONNECT r6---sn-hgn7zn7l.googlevideo.com:443
+w∑,c∑ 8910 CONNECT r4---sn-5hnedn7k.googlevideo.com:443
+S∑ÏY∑ 2767 CONNECT r6---sn-hgn7zn7l.googlevideo.com:443
+n∑ÏY∑ 3791 CONNECT pagead2.googlesyndication.com:443
+n∑ÏY∑ 4815 CONNECT www.youtube.com:443
+n∑ÏY∑ 5327 CONNECT googleads.g.doubleclick.net:443
+n∑ÏY∑ 6863 CONNECT r12---sn-hgn7zn7r.googlevideo.com:443
+n∑ÏY∑ 7887 CONNECT r12---sn-hgn7zn7r.googlevideo.com:443
+n∑ÏY∑ 9935 CONNECT s.youtube.com:443
+n∑ÏY∑ 10959 CONNECT i.ytimg.com:443
+n∑ÏY∑ 11983 GET wms-eu.amazon-adsystem.com/FR/img/transparent-pixel.gif?locale=FR&tag=lepaldezel-21&templateId=8001&instanceId=0&ID=NOID&timeSpent=25851&serviceVersion=20070822
+n∑ÏY∑ 11983 GET www.dailymotion.com/video/x2uytyg_the-eagles-funk-49-farewell-1-live-from-melbourne-2005-hd1080p_music
+n∑ÏY∑ 11983 GET static1.dmcdn.net/css/gen/pack/common.ltr.css.vd683bed46440c9b60
+n∑ÏY∑ 13519 GET static1.dmcdn.net/css/gen/pack/error_page-404.ltr.css.v7da481a6aca5614e0
+n∑ÏY∑ 14031 GET static1.dmcdn.net/js/gen/widget/pack/mandatory.js.va4fa8f34122f94190
+n∑ÏY∑ 14543 GET static1.dmcdn.net/js/build/common.3c143742b4bd282a0150.js
+n∑ÏY∑ 15055 GET static1.dmcdn.net/js/build/error_page-404.13a7ca1f34a5dedd1d49.js
+n∑ÏY∑ 15567 GET static1.dmcdn.net/js/gen/lib/dm/ga.js.vbbc59cc90ce5f4840
+n∑ÏY∑ 13519 GET static1.dmcdn.net/images/header/logo.svg.vfe44cd7bde0eb7280
+n∑ÏY∑ 14543 GET static1.dmcdn.net/images/error/page-404/bg.png.v188111d8d690abe8
+n∑ÏY∑ 20175 CONNECT api.dailymotion.com:443
+n∑ÏY∑ 14543 GET static1.dmcdn.net/images/error/page-404/trees.png.va99f39a0dd0ce684
+n∑ÏY∑ 15055 GET static1.dmcdn.net/images/error/page-404/cloud.png.ve345b55193034e87
+n∑ÏY∑ 21199 CONNECT api.dailymotion.com:443
+n∑ÏY∑ 22735 CONNECT www.google-analytics.com:443
+n∑ÏY∑ 15055 GET s2.dmcdn.net/W7XRR/214x120-GZZ.jpg
+n∑ÏY∑ 11983 GET s2.dmcdn.net/WX8WC/214x120-9hY.jpg
+n∑ÏY∑ 14031 GET s2.dmcdn.net/XGz-4/214x120-oBh.jpg
+n∑ÏY∑ 14543 GET s2.dmcdn.net/XHDTF/214x120-HxZ.jpg
+n∑ÏY∑ 24271 CONNECT c.s-microsoft.com:443
+n∑ÏY∑ 15055 GET pq-direct.revsci.net/pql?placementIdList=Yzgfk7,NDu9xl,u7hqK2,Cs0XXD,lMoxcA&cb=1463415917699
+n∑ÏY∑ 15055 GET horriblesubs.info/
+n∑ÏY∑ 14543 GET ajax.cloudflare.com/cdn-cgi/nexp/dok3v=e982913d31/cloudflare.min.js
+n∑ÏY∑ 11983 GET horriblesubs.info/
+n∑ÏY∑ 29391 CONNECT r3---sn-5hne6nlz.googlevideo.com:443
+X∑ú^∑ 30415 GET www.google.com/cse/brand?form=cse-search-box&lang=fr
+r∑ú^∑ 32463 GET ir-fr.amazon-adsystem.com/s/asw.js
+r∑ú^∑ 32975 GET pagead2.googlesyndication.com/pagead/js/adsbygoogle.js
+r∑ú^∑ 33487 GET www.palaiszelda.com/menuMobile.js
+r∑ú^∑ 30415 GET ws-eu.amazon-adsystem.com/widgets/q?MarketPlace=FR&Operation=MyFavorites&ServiceVersion=20070822&WS=1&ID=LStrings
+r∑ú^∑ 30415 GET ir-fr.amazon-adsystem.com/s/asw.js
+r∑ú^∑ 33487 GET ws.amazon.fr/widgets/q?rt=tf_cw&ServiceVersion=20070822&MarketPlace=FR&ID=V20070822%2FFR%2Flepaldezel-21%2F8010%2Fdd6b9ea5-8f5b-40fe-b876-3c2a94626216&Operation=GetDisplayTemplate
+r∑ú^∑ 39119 CONNECT googleads.g.doubleclick.net:443
+r∑ú^∑ 30415 GET g-ecx.images-amazon.com/images/G/08/associates/widgets//20070822/FR/Flash/Widgets._V1452710699_.swf?ServiceVersion=20070822&MarketPlace=FR&ID=V20070822/FR/lepaldezel-21/8010/dd6b9ea5-8f5b-40fe-b876-3c2a94626216&rt=as_sl_pd_tf_cw
+r∑ú^∑ 30927 CONNECT apis.google.com:443
+r∑ú^∑ 30415 GET pub5.media-clic.com/www/delivery/asyncjs_ads.php?zoneid=2651&sr=16806
+r∑ú^∑ 33487 GET pub5.media-clic.com/www/delivery/asyncjs_ads.php?zoneid=2653&sr=85370
+r∑ú^∑ 42703 CONNECT tpc.googlesyndication.com:443
+r∑ú^∑ 43215 CONNECT www.gstatic.com:443
+r∑ú^∑ 38607 CONNECT pagead2.googlesyndication.com:443
+^∑e∑ 16080 GET facebook.fr/
+y∑e∑ 16080 GET static.xx.fbcdn.net/images/logos/facebook_2x.png
+y∑e∑ 16080 GET facebook.fr/favicon.ico
+y∑e∑ 18640 CONNECT www.facebook.com:443
+y∑e∑ 19664 CONNECT static.xx.fbcdn.net:443
+y∑e∑ 20688 CONNECT static.xx.fbcdn.net:443
+y∑e∑ 20176 CONNECT scontent-cdg2-1.xx.fbcdn.net:443
+y∑e∑ 24272 GET horriblesubs.info/
+y∑e∑ 25296 GET ajax.cloudflare.com/cdn-cgi/nexp/dok3v=e982913d31/cloudflare.min.js
+y∑e∑ 25808 GET horriblesubs.info/
+y∑e∑ 16080 GET pub5.media-clic.com/www/delivery/asyncjs_ads.php?zoneid=2651&sr=79289
+y∑e∑ 27344 GET pub5.media-clic.com/www/delivery/asyncjs_ads.php?zoneid=2653&sr=21002
+R∑lY∑ 35024 CONNECT www.facebook.com:443
+m∑lY∑ 36560 CONNECT static.xx.fbcdn.net:443
+m∑lY∑ 37584 CONNECT scontent-cdg2-1.xx.fbcdn.net:443
+m∑lY∑ 38096 CONNECT static.xx.fbcdn.net:443
+m∑lY∑ 39632 CONNECT external-cdg2-1.xx.fbcdn.net:443
+m∑lY∑ 41168 CONNECT 6-edge-chat.facebook.com:443
+m∑lY∑ 42704 CONNECT cx.atdmt.com:443
+m∑lY∑ 43216 CONNECT sync.liverail.com:443
+m∑lY∑ 45776 CONNECT pixel.facebook.com:443
+m∑lY∑ 47312 CONNECT 6-edge-chat.facebook.com:443
+m∑lY∑ 48848 GET pub5.media-clic.com/www/delivery/asyncjs_ads.php?zoneid=2651&sr=37634
+m∑lY∑ 49360 GET pub5.media-clic.com/www/delivery/asyncjs_ads.php?zoneid=2653&sr=77086
+V∑<]∑ 61136 CONNECT www.facebook.com:443
+q∑<]∑ 61648 CONNECT static.xx.fbcdn.net:443
+q∑<]∑ 63184 CONNECT static.xx.fbcdn.net:443
+q∑<]∑ 64208 CONNECT scontent-cdg2-1.xx.fbcdn.net:443
+q∑<]∑ 65232 CONNECT pixel.facebook.com:443
+q∑<]∑ 721 CONNECT 6-edge-chat.facebook.com:443
